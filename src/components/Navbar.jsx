@@ -15,11 +15,11 @@ export function Navbar() {
                                 <img src={brandImg} alt="Brand" style={{ height: '40px' }} />
                             </Link>
                         </li>
-                        <li className='exclude'>
-                            <Link to="/">
-                                <span className='brand-text'>MyBinder</span>
-                            </Link>
-                        </li>
+                        {/*<li className='exclude'>*/}
+                        {/*    <Link to="/">*/}
+                        {/*        <span className='brand-text'>MyBinder</span>*/}
+                        {/*    </Link>*/}
+                        {/*</li>*/}
                         <li>
                             <Link to="/binder">Binder</Link>
                         </li>

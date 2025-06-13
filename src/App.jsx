@@ -13,7 +13,7 @@ export function App() {
         <Router>
             <Navbar />
             <Routes>
-                <Route path="/" element={<Home />} />
+                {/*<Route path="/" element={<Home />} />*/}
                 <Route path="/binder" element={<Binder />} />
                 <Route path="/mydecks" element={<MyDecks />} />
                 <Route path="/deckview" element={<DeckView />} />
