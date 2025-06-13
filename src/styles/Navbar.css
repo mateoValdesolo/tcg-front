@@ -47,6 +47,8 @@ li:not(.exclude) a {
     flex-direction: row;
     align-items: center;
     cursor: pointer;
+    height: 44px; /* Fija la altura para evitar que crezca */
+    box-sizing: border-box;
 }
 
 li:not(.exclude) a:hover {
