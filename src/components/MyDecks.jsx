@@ -36,7 +36,14 @@ export function MyDecks() {
     };
 
     const handleDeleteDeck = (idx) => {
-        setDecks(prev => prev.filter((_, i) => i !== idx));
+        setDecks(prev => {
+            const updatedDecks = prev.filter((_, i) => i !== idx);
+            // Elimina la clave individual del mazo
+            const deckName = prev[idx].name;
+            localStorage.removeItem(`deckCollection:${deckName}`);
+            localStorage.setItem('decks', JSON.stringify(updatedDecks));
+            return updatedDecks;
+        });
     };
 
     return (
