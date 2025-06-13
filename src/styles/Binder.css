@@ -1,0 +1,61 @@
+.binder-container {
+    display: flex;
+    justify-content: stretch;
+    align-items: flex-start;
+    padding: 1rem;
+    height: 100vh;
+    box-sizing: border-box;
+}
+
+.binder-left {
+    /* Personaliza el contenido izquierdo */
+}
+
+.binder-right .search-form {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.search-input {
+    padding: 0.5rem;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+}
+
+.search-button {
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    border: none;
+    background: #1976d2;
+    color: #fff;
+    cursor: pointer;
+}
+
+.binder-box {
+    background: #fafbfc;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 1rem 1.5rem;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+    display: flex;
+    align-items: center;
+}
+
+.binder-box.binder-left {
+    flex: 2;
+    min-width: 0;
+}
+
+.binder-box.binder-right {
+    flex: 1.4;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.binder-divider {
+    width: 1px;
+    height: 2.5rem;
+    background: #e0e0e0;
+    margin: 0 1.5rem;
+}

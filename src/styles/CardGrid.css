@@ -1,0 +1,20 @@
+.card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+    width: 100%;
+    max-height: 70vh; /* Ajusta según prefieras */
+    overflow-y: auto;
+    padding-right: 0.5rem; /* Opcional: espacio para la barra de scroll */
+}
+
+.card-img {
+    width: 150px;
+    height: auto;
+    border-radius: 6px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+    background: #fff;
+    display: block;
+    margin: 0 auto;
+}
