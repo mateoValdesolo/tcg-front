@@ -50,3 +50,21 @@
     margin-top: 2rem;
     color: #555;
 }
+
+.proxy-btn {
+    color: red;
+    font-weight: 700;
+    background: none;
+    border: none;
+    cursor: pointer;
+    margin-top: 0.3rem;
+    font-family: 'Montserrat', Arial, sans-serif;
+    font-size: 1rem;
+    padding: 0;
+}
+
+.proxy-total {
+    color: red;
+    margin-left: 1rem;
+    font-weight: 700;
+}

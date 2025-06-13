@@ -1,0 +1,118 @@
+.mydecks-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 2rem;
+}
+
+.create-deck-btn {
+    background: #d32f2f;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 0.7rem 1.5rem;
+    font-size: 1.1rem;
+    font-family: 'Montserrat', Arial, sans-serif;
+    font-weight: 700;
+    cursor: pointer;
+    margin-bottom: 2rem;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.decks-list {
+    width: 100vw;
+    max-width: none;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 220px));
+    gap: 1rem;
+    padding-left: 2vw;
+    padding-right: 2vw;
+    box-sizing: border-box;
+    justify-content: start; /* Opcional: alinea los ítems a la izquierda */
+}
+
+.deck-item {
+    background: #fafbfc;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    font-family: 'Montserrat', Arial, sans-serif;
+    font-weight: 500;
+}
+
+.decks-empty {
+    text-align: center;
+    font-weight: 700;
+    font-family: 'Montserrat', Arial, sans-serif;
+    color: #555;
+    margin: 1.5rem 0 0 0;
+    background: none;
+    border: none;
+    border-radius: 0;
+    height: auto;
+    box-sizing: border-box;
+}
+
+.deck-form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 1rem;
+    width: 100%;
+    max-width: 400px;
+    gap: 0.5rem; /* Añade espacio uniforme */
+}
+
+.deck-input {
+    width: 70%;
+    padding: 0.5rem;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+    font-family: 'Montserrat', Arial, sans-serif;
+    box-sizing: border-box;
+    height: 44px; /* Igual al botón */
+}
+
+.deck-form .create-deck-btn {
+    padding: 0.5rem 1rem;
+    height: 44px; /* Igual al input */
+    display: flex;
+    align-items: center;
+    margin: 0;
+}
+
+.delete-deck-btn {
+    margin-left: 1rem;
+    background: #888;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 0.3rem 0.7rem;
+    cursor: pointer;
+    font-family: 'Montserrat', Arial, sans-serif;
+    font-size: 1rem;
+    transition: background 0.2s;
+}
+
+.delete-deck-btn:hover {
+    background: #b71c1c;
+}
+
+.deck-item {
+    background: #fafbfc;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    padding: 1rem;
+    font-family: 'Montserrat', Arial, sans-serif;
+    font-weight: 500;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    min-width: 0;
+    margin-bottom: 0; /* Elimina el margen inferior, ya que ahora usas gap */
+}

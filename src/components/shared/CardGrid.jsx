@@ -1,7 +1,7 @@
 import React from 'react';
 import '../../styles/CardGrid.css';
 
-export function CardGrid({ cards }) {
+export function CardGrid({ cards, onCardClick }) {
     return (
         <div className="card-grid">
             {cards.map(card => (
@@ -10,6 +10,8 @@ export function CardGrid({ cards }) {
                     src={card.images.small}
                     alt={card.name}
                     className="card-img"
+                    style={{ cursor: onCardClick ? 'pointer' : 'default' }}
+                    onClick={onCardClick ? () => onCardClick(card) : undefined}
                 />
             ))}
         </div>
