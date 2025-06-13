@@ -5,11 +5,13 @@
     grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
     gap: 2rem;
     width: 100%;
+    overflow-x: hidden; /* Evita scroll horizontal */
     overflow-y: auto;
     align-content: flex-start;
     box-sizing: border-box;
     padding-bottom: 1rem;
     padding-right: 1rem; /* <-- Agrega espacio para el scrollbar */
+    scrollbar-gutter: stable;
 }
 
 .collection-wrapper {
