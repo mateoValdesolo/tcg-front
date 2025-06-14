@@ -22,7 +22,7 @@ export function Binder() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const result = await pokemon.card.where({ q: `name:${search} legalities.standard:Legal` });
+        const result = await pokemon.card.where({ q: `name:${search}* legalities.standard:Legal`, orderBy:`-set.releaseDate`});
         setCards(result.data);
     };
 
