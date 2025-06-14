@@ -143,6 +143,30 @@ export function DeckView() {
         });
     };
 
+    const handleRemoveProxy = (cardId) => {
+        setCollection(prev => {
+            const prevItem = prev[cardId] || {};
+            const prevProxy = prevItem.proxy || 0;
+            const prevCount = prevItem.count || 0;
+            if (prevProxy <= 0) return prev; // No hay proxys para quitar
+
+            // Si al quitar proxy y count ambos quedan en 0, elimina la carta
+            if (prevProxy - 1 === 0 && prevCount - 1 === 0) {
+                const { [cardId]: _, ...rest } = prev;
+                return rest;
+            }
+
+            return {
+                ...prev,
+                [cardId]: {
+                    ...prevItem,
+                    proxy: prevProxy - 1,
+                    count: prevCount - 1
+                }
+            };
+        });
+    };
+
     const handleCardRemove = (cardId) => {
         setCollection(prev => {
             const prevCount = prev[cardId]?.count || 0;
@@ -199,6 +223,7 @@ export function DeckView() {
                     collection={collection}
                     onCardRemove={handleCardRemove}
                     onAddProxy={handleAddProxy}
+                    onRemoveProxy={handleRemoveProxy}
                 />
                 {showStats && (
                     <div className="modal-overlay" onClick={() => setShowStats(false)}>
