@@ -203,95 +203,95 @@ export function DeckView() {
         });
     };
 
-    const handleDownloadCanvas = async () => {
-        setIsGenerating(true);
-        try {
-            const canvasWidth = 1920;
-            const canvasHeight = 1080;
-            const maxCols = 10;
-            const maxRows = 3;
-            const cards = Object.values(collection).slice(0, maxCols * maxRows);
-
-            // Calcula el tamaño de carta y padding para que encajen en 1920x1080
-            const padding = 24;
-            const cardWidth = Math.floor((canvasWidth - (maxCols + 1) * padding) / maxCols);
-            const cardHeight = Math.floor((canvasHeight - (maxRows + 1) * padding - maxRows * 60) / maxRows);
-
-            const canvas = document.createElement('canvas');
-            canvas.width = canvasWidth;
-            canvas.height = canvasHeight;
-            const ctx = canvas.getContext('2d');
-
-            ctx.fillStyle = '#444';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-            for (let i = 0; i < cards.length; i++) {
-                const {card, count} = cards[i];
-                const row = Math.floor(i / maxCols);
-                const col = i % maxCols;
-
-                let offsetX = 0;
-                if (row === Math.ceil(cards.length / maxCols) - 1 && cards.length % maxCols !== 0) {
-                    const lastRowCards = cards.length % maxCols;
-                    offsetX = ((maxCols - lastRowCards) * (cardWidth + padding)) / 2;
-                }
-
-                const x = padding + col * (cardWidth + padding) + offsetX;
-                const y = padding + row * (cardHeight + 60 + padding);
-
-                const img = new window.Image();
-                img.crossOrigin = 'anonymous';
-                img.src = `http://localhost:4000/proxy?url=${encodeURIComponent(card.images.large)}`;
-
-                await new Promise(resolve => {
-                    img.onload = () => {
-                        ctx.drawImage(img, x, y, cardWidth, cardHeight);
-                        ctx.fillStyle = '#fff';
-                        ctx.font = `bold ${Math.floor(cardHeight * 0.09)}px Montserrat, Arial`;
-                        ctx.textAlign = 'center';
-                        ctx.fillText(`Cantidad: ${count}`, x + cardWidth / 2, y + cardHeight + 40);
-                        resolve();
-                    };
-                    img.onerror = () => {
-                        ctx.fillStyle = '#444';
-                        ctx.fillRect(x, y, cardWidth, cardHeight);
-                        ctx.fillStyle = '#fff';
-                        ctx.font = `bold ${Math.floor(cardHeight * 0.09)}px Montserrat, Arial`;
-                        ctx.textAlign = 'center';
-                        ctx.fillText(`Cantidad: ${count}`, x + cardWidth / 2, y + cardHeight + 40);
-                        resolve();
-                    };
-                });
-            }
-
-            // Dibuja el logo en la esquina inferior derecha
-            await new Promise(resolve => {
-                const logo = new window.Image();
-                logo.src = '/logo.png'; // Asegúrate de que la ruta sea correcta
-                logo.onload = () => {
-                    const logoWidth = 120;
-                    const logoHeight = 120;
-                    const margin = 32;
-                    ctx.drawImage(
-                        logo,
-                        canvasWidth - logoWidth - margin,
-                        canvasHeight - logoHeight - margin,
-                        logoWidth,
-                        logoHeight
-                    );
-                    resolve();
-                };
-                logo.onerror = resolve; // Si falla, simplemente continúa
-            });
-
-            const link = document.createElement('a');
-            link.download = `${deckName}.png`;
-            link.href = canvas.toDataURL();
-            link.click();
-        } finally {
-            setIsGenerating(false);
-        }
-    };
+    // const handleDownloadCanvas = async () => {
+    //     setIsGenerating(true);
+    //     try {
+    //         const canvasWidth = 1920;
+    //         const canvasHeight = 1080;
+    //         const maxCols = 10;
+    //         const maxRows = 3;
+    //         const cards = Object.values(collection).slice(0, maxCols * maxRows);
+    //
+    //         // Calcula el tamaño de carta y padding para que encajen en 1920x1080
+    //         const padding = 24;
+    //         const cardWidth = Math.floor((canvasWidth - (maxCols + 1) * padding) / maxCols);
+    //         const cardHeight = Math.floor((canvasHeight - (maxRows + 1) * padding - maxRows * 60) / maxRows);
+    //
+    //         const canvas = document.createElement('canvas');
+    //         canvas.width = canvasWidth;
+    //         canvas.height = canvasHeight;
+    //         const ctx = canvas.getContext('2d');
+    //
+    //         ctx.fillStyle = '#444';
+    //         ctx.fillRect(0, 0, canvas.width, canvas.height);
+    //
+    //         for (let i = 0; i < cards.length; i++) {
+    //             const {card, count} = cards[i];
+    //             const row = Math.floor(i / maxCols);
+    //             const col = i % maxCols;
+    //
+    //             let offsetX = 0;
+    //             if (row === Math.ceil(cards.length / maxCols) - 1 && cards.length % maxCols !== 0) {
+    //                 const lastRowCards = cards.length % maxCols;
+    //                 offsetX = ((maxCols - lastRowCards) * (cardWidth + padding)) / 2;
+    //             }
+    //
+    //             const x = padding + col * (cardWidth + padding) + offsetX;
+    //             const y = padding + row * (cardHeight + 60 + padding);
+    //
+    //             const img = new window.Image();
+    //             img.crossOrigin = 'anonymous';
+    //             img.src = `http://localhost:4000/proxy?url=${encodeURIComponent(card.images.large)}`;
+    //
+    //             await new Promise(resolve => {
+    //                 img.onload = () => {
+    //                     ctx.drawImage(img, x, y, cardWidth, cardHeight);
+    //                     ctx.fillStyle = '#fff';
+    //                     ctx.font = `bold ${Math.floor(cardHeight * 0.09)}px Montserrat, Arial`;
+    //                     ctx.textAlign = 'center';
+    //                     ctx.fillText(`Cantidad: ${count}`, x + cardWidth / 2, y + cardHeight + 40);
+    //                     resolve();
+    //                 };
+    //                 img.onerror = () => {
+    //                     ctx.fillStyle = '#444';
+    //                     ctx.fillRect(x, y, cardWidth, cardHeight);
+    //                     ctx.fillStyle = '#fff';
+    //                     ctx.font = `bold ${Math.floor(cardHeight * 0.09)}px Montserrat, Arial`;
+    //                     ctx.textAlign = 'center';
+    //                     ctx.fillText(`Cantidad: ${count}`, x + cardWidth / 2, y + cardHeight + 40);
+    //                     resolve();
+    //                 };
+    //             });
+    //         }
+    //
+    //         // Dibuja el logo en la esquina inferior derecha
+    //         await new Promise(resolve => {
+    //             const logo = new window.Image();
+    //             logo.src = '/logo.png'; // Asegúrate de que la ruta sea correcta
+    //             logo.onload = () => {
+    //                 const logoWidth = 120;
+    //                 const logoHeight = 120;
+    //                 const margin = 32;
+    //                 ctx.drawImage(
+    //                     logo,
+    //                     canvasWidth - logoWidth - margin,
+    //                     canvasHeight - logoHeight - margin,
+    //                     logoWidth,
+    //                     logoHeight
+    //                 );
+    //                 resolve();
+    //             };
+    //             logo.onerror = resolve; // Si falla, simplemente continúa
+    //         });
+    //
+    //         const link = document.createElement('a');
+    //         link.download = `${deckName}.png`;
+    //         link.href = canvas.toDataURL();
+    //         link.click();
+    //     } finally {
+    //         setIsGenerating(false);
+    //     }
+    // };
 
     return (
         <div className="binder-container">
@@ -316,15 +316,15 @@ export function DeckView() {
                             >
                                 Statistics
                             </button>
-                            <button
-                                className="tools-menu-item"
-                                onClick={async () => {
-                                    await handleDownloadCanvas();
-                                    setShowTools(false);
-                                }}
-                            >
-                                Descargar imagen del mazo
-                            </button>
+                            {/*<button*/}
+                            {/*    className="tools-menu-item"*/}
+                            {/*    onClick={async () => {*/}
+                            {/*        await handleDownloadCanvas();*/}
+                            {/*        setShowTools(false);*/}
+                            {/*    }}*/}
+                            {/*>*/}
+                            {/*    Descargar imagen del mazo*/}
+                            {/*</button>*/}
                         </div>
                     )}
                 </div>
