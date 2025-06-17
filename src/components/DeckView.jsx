@@ -100,6 +100,92 @@ export function DeckView() {
     const [showTools, setShowTools] = useState(false);
     const toolsRef = useRef();
     const [showStats, setShowStats] = useState(false);
+    const [showImport, setShowImport] = useState(false);
+    const [importText, setImportText] = useState('');
+    const [isImporting, setIsImporting] = useState(false);
+    const [showExported, setShowExported] = useState(false);
+
+    async function importDeck(text) {
+        setIsImporting(true);
+        try {
+            const lines = text.split('\n').filter(l => /^\d+ /.test(l));
+            let newCollection = {};
+            for (const line of lines) {
+                const match = line.match(/^(\d+)\s+(.+)\s+([A-Z0-9]+)\s+(\d+)$/);
+                if (!match) continue;
+                const [, count, rawName, set, number] = match;
+
+                const name = rawName.replace(/\s*\(.*?\)\s*/g, '').trim();
+
+                let result = await pokemon.card.where({
+                    q: `name:"${name}" set.id:${set} number:${number}`
+                });
+                let card = result.data?.[0];
+
+                if (!card) {
+                    result = await pokemon.card.where({
+                        q: `name:${name} set.id:${set} number:${number}`
+                    });
+                    card = result.data?.[0];
+                }
+
+                if (!card && rawName !== name) {
+                    result = await pokemon.card.where({
+                        q: `name:"${rawName}" set.id:${set} number:${number}`
+                    });
+                    card = result.data?.[0];
+                }
+
+                if (card) {
+                    newCollection[card.id] = {
+                        card,
+                        count: parseInt(count, 10),
+                        proxy: 0
+                    };
+                }
+            }
+            setCollection(newCollection);
+        } finally {
+            setIsImporting(false);
+        }
+    }
+
+    function exportDeck(collection) {
+        // Agrupa cartas por tipo
+        const groups = {
+            'Pokémon': [],
+            'Trainer': [],
+            'Energy': []
+        };
+        Object.values(collection).forEach(({card, count}) => {
+            if (card.supertype === 'Pokémon') {
+                groups['Pokémon'].push({card, count});
+            } else if (card.supertype === 'Trainer') {
+                groups['Trainer'].push({card, count});
+            } else if (card.supertype === 'Energy') {
+                groups['Energy'].push({card, count});
+            }
+        });
+
+        function formatGroup(name, arr) {
+            if (arr.length === 0) return '';
+            const total = arr.reduce((acc, {count}) => acc + count, 0);
+            let lines = [`${name}: ${total}`];
+            arr.forEach(({card, count}) => {
+                // Ejemplo: 2 Charizard ex PAF 54
+                const set = card.set?.id?.toUpperCase() || '';
+                const num = card.number || '';
+                lines.push(`${count} ${card.name} ${set} ${num}`);
+            });
+            return lines.join('\n');
+        }
+
+        return [
+            formatGroup('Pokémon', groups['Pokémon']),
+            formatGroup('Trainer', groups['Trainer']),
+            formatGroup('Energy', groups['Energy'])
+        ].filter(Boolean).join('\n\n');
+    }
 
 
     // Cargar colección del mazo desde localStorage al iniciar
@@ -332,7 +418,24 @@ export function DeckView() {
                                     setShowTools(false);
                                 }}
                             >
-                                Statistics
+                                Estadisticas
+                            </button>
+                            <button
+                                className="tools-menu-item"
+                                onClick={() => {
+                                    const text = exportDeck(collection);
+                                    navigator.clipboard.writeText(text);
+                                    setShowExported(true);
+                                    setShowTools(false);
+                                }}
+                            >
+                                Exportar mazo
+                            </button>
+                            <button
+                                className="tools-menu-item"
+                                onClick={() => setShowImport(true)}
+                            >
+                                Importar mazo
                             </button>
                             {/*<button*/}
                             {/*    className="tools-menu-item"*/}
@@ -390,6 +493,41 @@ export function DeckView() {
                                 </>
                             )}
                             <button onClick={() => setShowStats(false)}>Cerrar</button>
+                        </div>
+                    </div>
+                )}
+                {showImport &&  !isImporting &&(
+                    <div className="modal-overlay" onClick={() => setShowImport(false)}>
+                        <div className="modal-content" onClick={e => e.stopPropagation()}>
+                            <h3>Importar mazo</h3>
+                            <textarea
+                                rows={10}
+                                style={{width: '100%'}}
+                                placeholder="Pega aquí el texto exportado..."
+                                onChange={e => setImportText(e.target.value)}
+                            />
+                            <button onClick={async () => {
+                                await importDeck(importText);
+                                setShowImport(false);
+                            }}>Importar</button>
+                            <button onClick={() => setShowImport(false)}>Cancelar</button>
+                        </div>
+                    </div>
+                )}
+                {isImporting && (
+                    <div className="modal-overlay">
+                        <div className="modal-content">
+                            <h3>Importando mazo...</h3>
+                            <p>Por favor espera.</p>
+                        </div>
+                    </div>
+                )}
+                {showExported && (
+                    <div className="modal-overlay" onClick={() => setShowExported(false)}>
+                        <div className="modal-content" onClick={e => e.stopPropagation()}>
+                            <h3>Mazo exportado</h3>
+                            <p>El mazo se copió al portapapeles.</p>
+                            <button onClick={() => setShowExported(false)}>Cerrar</button>
                         </div>
                     </div>
                 )}

@@ -12,8 +12,9 @@ export function CardCollectionDeck({collection, onCardRemove,onAddCard, onAddPro
         if (card.subtypes[0] === 'Supporter') return 1;
         if (card.subtypes[0] === 'Item') return 2;
         if (card.subtypes[0] === 'Pokémon Tool') return 3;
-        if (card.supertype === 'Energy') return 4;
-        return 5;
+        if (card.subtypes[0] === 'Stadium') return 4;
+        if (card.supertype === 'Energy') return 5;
+        return 6;
     };
 
     const sortedCards = [...cards].sort((a, b) => {
