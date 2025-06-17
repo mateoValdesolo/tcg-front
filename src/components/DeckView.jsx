@@ -104,6 +104,71 @@ export function DeckView() {
     const [importText, setImportText] = useState('');
     const [isImporting, setIsImporting] = useState(false);
     const [showExported, setShowExported] = useState(false);
+    const [showFilters, setShowFilters] = useState(false);
+    const [filters, setFilters] = useState({
+        pokemon: true,
+        trainer: true,
+        energy: true,
+        onlyBasic: false
+    });
+
+    const handleFilterChange = (e) => {
+        const { name, checked } = e.target;
+        if (name === "onlyBasic") {
+            setFilters({
+                pokemon: false,
+                item: false,
+                supporter: false,
+                trainer: false,
+                energy: false,
+                onlyBasic: checked
+            });
+        } else {
+            setFilters({
+                pokemon: false,
+                item: false,
+                supporter: false,
+                trainer: false,
+                energy: false,
+                onlyBasic: false,
+                [name]: checked
+            });
+        }
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        let q = `name:${search}* legalities.standard:Legal`;
+
+        if (filters.pokemon) {
+            q += ` supertype:Pokémon`;
+        }
+
+        if (filters.item) {
+            q += ` subtypes:Item`;
+        }
+
+        if (filters.supporter) {
+            q += ` subtypes:Supporter`;
+        }
+
+        if (filters.stadium) {
+            q += ` subtypes:Stadium`;
+        }
+
+        if (filters.energy) {
+            q += ` supertype:Energy`;
+        }
+
+        if (filters.onlyBasic) {
+            q += ` subtypes:Basic`;
+        }
+        const result = await pokemon.card.where({
+            q,
+            orderBy: `-set.releaseDate`
+        });
+        setCards(result.data);
+    };
 
     async function importDeck(text) {
         setIsImporting(true);
@@ -211,14 +276,6 @@ export function DeckView() {
         return () => document.removeEventListener('mousedown', handleClickOutside);
     }, []);
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        const result = await pokemon.card.where({
-            q: `name:${search}* legalities.standard:Legal`,
-            orderBy: `-set.releaseDate`
-        });
-        setCards(result.data);
-    };
 
     const handleAddProxy = (cardId) => {
         setCollection(prev => {
@@ -534,7 +591,7 @@ export function DeckView() {
             </div>
             <div className="binder-divider"></div>
             <div className="binder-box binder-right">
-                <form className="search-form" onSubmit={handleSubmit}>
+                <form className="search-form" onSubmit={handleSubmit} style={{ display: 'flex', alignItems: 'center', gap: 8, position: 'relative' }}>
                     <input
                         type="text"
                         placeholder="Buscar..."
@@ -545,6 +602,81 @@ export function DeckView() {
                     <button type="submit" className="search-button">
                         Buscar
                     </button>
+                    <button
+                        type="button"
+                        className="filter-btn"
+                        style={{ marginLeft: 4 }}
+                        onClick={() => setShowFilters(v => !v)}
+                    >
+                        Filtros
+                    </button>
+                    {showFilters && (
+                        <div className="filters-panel" style={{
+                            position: 'absolute',
+                            top: '100%',
+                            right: 0,
+                            background: 'var(--modal-bg, #fff)',
+                            border: '1px solid #ccc',
+                            borderRadius: 8,
+                            padding: 12,
+                            zIndex: 10,
+                            minWidth: 180
+                        }}>
+                            <label>
+                                <input
+                                    type="checkbox"
+                                    name="pokemon"
+                                    checked={filters.pokemon}
+                                    onChange={handleFilterChange}
+                                /> Pokémon
+                            </label>
+                            <br />
+                            <label>
+                                <input
+                                    type="checkbox"
+                                    name="item"
+                                    checked={filters.item}
+                                    onChange={handleFilterChange}
+                                /> Item
+                            </label>
+                            <br />
+                            <label>
+                                <input
+                                    type="checkbox"
+                                    name="supporter"
+                                    checked={filters.supporter}
+                                    onChange={handleFilterChange}
+                                /> Partidario
+                            </label>
+                            <br />
+                            <label>
+                                <input
+                                    type="checkbox"
+                                    name="stadium"
+                                    checked={filters.stadium}
+                                    onChange={handleFilterChange}
+                                /> Estadio
+                            </label>
+                            <br />
+                            <label>
+                                <input
+                                    type="checkbox"
+                                    name="energy"
+                                    checked={filters.energy}
+                                    onChange={handleFilterChange}
+                                /> Energía
+                            </label>
+                            <br />
+                            <label>
+                                <input
+                                    type="checkbox"
+                                    name="onlyBasic"
+                                    checked={filters.onlyBasic}
+                                    onChange={handleFilterChange}
+                                /> Solo básicos
+                            </label>
+                        </div>
+                    )}
                 </form>
                 <CardGrid cards={cards} onCardClick={handleCardClick}/>
             </div>
