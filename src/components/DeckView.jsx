@@ -120,6 +120,7 @@ export function DeckView() {
                 item: false,
                 supporter: false,
                 trainer: false,
+                stadium: false,
                 energy: false,
                 onlyBasic: checked
             });
@@ -129,6 +130,7 @@ export function DeckView() {
                 item: false,
                 supporter: false,
                 trainer: false,
+                stadium: false,
                 energy: false,
                 onlyBasic: false,
                 [name]: checked
