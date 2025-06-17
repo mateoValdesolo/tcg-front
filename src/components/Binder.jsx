@@ -50,12 +50,30 @@ export function Binder() {
         });
     };
 
+    const handleAddCard = (cardId) => {
+        setCollection(prev => {
+            const total = Object.values(prev).reduce((acc, {count}) => acc + count, 0);
+            if (total >= 60) return prev; // No agregar más de 60
+            const prevItem = prev[cardId] || {};
+            const prevCount = prevItem.count || 0;
+            const prevProxy = prevItem.proxy || 0;
+            return {
+                ...prev,
+                [cardId]: {
+                    ...prevItem,
+                    count: prevCount + 1,
+                    proxy: prevProxy
+                }
+            };
+        });
+    };
+
     // Para enviar al backend: Object.entries(collection).map(([id, { count }]) => ({ id, count }))
 
     return (
         <div className="binder-container">
             <div className="binder-box binder-left">
-                <CardCollection collection={collection} onCardRemove={handleCardRemove} />
+                <CardCollection collection={collection} onCardRemove={handleCardRemove} onAddCard={handleAddCard} />
             </div>
             <div className="binder-divider"></div>
             <div className="binder-box binder-right" >

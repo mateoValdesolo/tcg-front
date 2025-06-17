@@ -1,7 +1,7 @@
 import React from 'react';
 import '../../styles/CardCollection.css';
 
-export function CardCollection({ collection, onCardRemove }) {
+export function CardCollection({ collection, onCardRemove, onAddCard }) {
     const cards = Object.values(collection);
     const total = cards.reduce((acc, { count }) => acc + count, 0);
 
@@ -24,7 +24,20 @@ export function CardCollection({ collection, onCardRemove }) {
                             style={{ cursor: 'pointer' }}
                             onClick={() => onCardRemove(card.id)}
                         />
-                        <div className="cardcollection-count">Cantidad: {count}</div>
+                        <div className="cardcollection-count">
+                            <button
+                                className="card-btn"
+                                onClick={() => onCardRemove(card.id)}
+                                type="button"
+                                disabled={count <= 1}
+                            >-</button>
+                            Cantidad: {count}
+                            <button
+                                className="card-btn"
+                                onClick={() => onAddCard(card.id)}
+                                type="button"
+                            >+</button>
+                        </div>
                     </div>
                 ))}
             </div>
