@@ -100,7 +100,7 @@ export function DeckView() {
     const [showTools, setShowTools] = useState(false);
     const toolsRef = useRef();
     const [showStats, setShowStats] = useState(false);
-    const [isGenerating, setIsGenerating] = useState(false);
+
 
     // Cargar colección del mazo desde localStorage al iniciar
     useEffect(() => {
@@ -199,6 +199,24 @@ export function DeckView() {
             return {
                 ...prev,
                 [card.id]: {card, count: prevCount + 1, proxy: prevProxy}
+            };
+        });
+    };
+
+    const handleAddCard = (cardId) => {
+        setCollection(prev => {
+            const total = Object.values(prev).reduce((acc, {count}) => acc + count, 0);
+            if (total >= 60) return prev; // No agregar más de 60
+            const prevItem = prev[cardId] || {};
+            const prevCount = prevItem.count || 0;
+            const prevProxy = prevItem.proxy || 0;
+            return {
+                ...prev,
+                [cardId]: {
+                    ...prevItem,
+                    count: prevCount + 1,
+                    proxy: prevProxy
+                }
             };
         });
     };
@@ -331,16 +349,17 @@ export function DeckView() {
                 <CardCollectionDeck
                     collection={collection}
                     onCardRemove={handleCardRemove}
+                    onAddCard={handleAddCard}
                     onAddProxy={handleAddProxy}
                     onRemoveProxy={handleRemoveProxy}
                 />
-                {isGenerating && (
-                    <div className="modal-overlay">
-                        <div className="modal-content">
-                            <p>Generando imagen, por favor espera...</p>
-                        </div>
-                    </div>
-                )}
+                {/*{isGenerating && (*/}
+                {/*    <div className="modal-overlay">*/}
+                {/*        <div className="modal-content">*/}
+                {/*            <p>Generando imagen, por favor espera...</p>*/}
+                {/*        </div>*/}
+                {/*    </div>*/}
+                {/*)}*/}
                 {showStats && (
                     <div className="modal-overlay" onClick={() => setShowStats(false)}>
                         <div className="modal-content" onClick={e => e.stopPropagation()}>
