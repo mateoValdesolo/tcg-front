@@ -6,6 +6,22 @@ export function CardCollectionDeck({collection, onCardRemove,onAddCard, onAddPro
     const total = cards.reduce((acc, {count}) => acc + count, 0);
     const totalProxies = cards.reduce((acc, {proxy = 0}) => acc + proxy, 0);
 
+    const getTypePriority = (card) => {
+        // Ajusta según cómo se almacene el tipo en tu objeto card
+        if (card.supertype === 'Pokémon') return 0;
+        if (card.subtypes[0] === 'Supporter') return 1;
+        if (card.subtypes[0] === 'Item') return 2;
+        if (card.subtypes[0] === 'Pokémon Tool') return 3;
+        if (card.subtypes[0] === 'Stadium') return 4;
+        if (card.supertype === 'Energy') return 5;
+        return 6;
+    };
+
+    const sortedCards = [...cards].sort((a, b) => {
+        return getTypePriority(a.card) - getTypePriority(b.card);
+    });
+
+
     if (cards.length === 0) {
         return <div className="cardcollection-empty">No has agregado cartas aún.</div>;
     }
@@ -19,7 +35,7 @@ export function CardCollectionDeck({collection, onCardRemove,onAddCard, onAddPro
                 </span>
             </div>
             <div className="collection-grid">
-                {cards.map(({card, count, proxy = 0}) => (
+                {sortedCards.map(({card, count, proxy = 0}) => (
                     <div key={card.id} className="cardcollection-card">
                         <img
                             src={card.images.small}
