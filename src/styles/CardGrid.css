@@ -4,7 +4,7 @@
     gap: 1.5rem;
     margin-top: 2rem;
     width: 100%;
-    max-height: 70vh; /* Ajusta según prefieras */
+    max-height: 100vh; /* Ajusta según prefieras */
     overflow-y: auto;
     padding-right: 0.5rem; /* Opcional: espacio para la barra de scroll */
 }
