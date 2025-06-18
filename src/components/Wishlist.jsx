@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 import '../styles/Binder.css';
 import pokemon from "../api/pokemon.js";
 import { CardGrid } from './shared/CardGrid.jsx';
-import { CardCollection } from './shared/CardCollection.jsx';
+import {CardCollectionWish} from "./shared/CardCollectionWish.jsx";
 
-export function Binder() {
+export function Wishlist() {
     const [search, setSearch] = useState('');
     const [cards, setCards] = useState([]);
     const [collection, setCollection] = useState({}); // { [id]: { card, count } }
@@ -79,15 +79,17 @@ export function Binder() {
         setCards(result.data);
     };
 
+
+
     // Cargar colección desde localStorage al iniciar
     useEffect(() => {
-        const stored = localStorage.getItem('binderCollection');
+        const stored = localStorage.getItem('wishlistCollection');
         if (stored) setCollection(JSON.parse(stored));
     }, []);
 
     // Guardar colección en localStorage cuando cambie
     useEffect(() => {
-        localStorage.setItem('binderCollection', JSON.stringify(collection));
+        localStorage.setItem('wishlistCollection', JSON.stringify(collection));
     }, [collection]);
 
     const handleCardRemove = (cardId) => {
@@ -137,7 +139,7 @@ export function Binder() {
     return (
         <div className="binder-container">
             <div className="binder-box binder-left">
-                <CardCollection collection={collection} onCardRemove={handleCardRemove} onAddCard={handleAddCard} />
+                <CardCollectionWish collection={collection} onCardRemove={handleCardRemove} onAddCard={handleAddCard} />
             </div>
             <div className="binder-divider"></div>
             <div className="binder-box binder-right" >

@@ -106,9 +106,12 @@ export function DeckView() {
     const [showExported, setShowExported] = useState(false);
     const [showFilters, setShowFilters] = useState(false);
     const [filters, setFilters] = useState({
-        pokemon: true,
-        trainer: true,
-        energy: true,
+        pokemon: false,
+        item: false,
+        supporter: false,
+        trainer: false,
+        stadium: false,
+        energy: false,
         onlyBasic: false
     });
 
