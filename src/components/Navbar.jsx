@@ -26,6 +26,9 @@ export function Navbar() {
                         <li>
                             <Link to="/mydecks">MyDecks</Link>
                         </li>
+                        <li>
+                            <Link to="/wishlist">Wishlist</Link>
+                        </li>
                     </ul>
                 </div>
             </nav>
