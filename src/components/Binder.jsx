@@ -132,8 +132,6 @@ export function Binder() {
         });
     };
 
-    // Para enviar al backend: Object.entries(collection).map(([id, { count }]) => ({ id, count }))
-
     return (
         <div className="binder-container">
             <div className="binder-box binder-left">
