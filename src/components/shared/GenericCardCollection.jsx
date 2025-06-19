@@ -1,9 +1,16 @@
 import React from 'react';
 import '../../styles/GenericCardCollection.css';
 
-export function GenericCardCollection({typeCollection, collection, onCardRemove,onAddCard, onAddProxy, onRemoveProxy }) {
+export function GenericCardCollection({
+                                          typeCollection,
+                                          collection,
+                                          onCardRemove,
+                                          onAddCard,
+                                          onAddProxy,
+                                          onRemoveProxy
+                                      }) {
     const cards = Object.values(collection);
-    const total = cards.reduce((acc, { count }) => acc + count, 0);
+    const total = cards.reduce((acc, {count}) => acc + count, 0);
 
     const getTypePriority = (card) => {
         if (card.supertype === 'Pokémon') return 0;
@@ -24,7 +31,6 @@ export function GenericCardCollection({typeCollection, collection, onCardRemove,
     // --------------------------------------------- FIN DECK ---------------------------------------------
 
 
-
     // --------------------------------------------- WISHLIST -------------------------------------------------
     const getFirstMarketPrice = (card) => {
         const prices = card.tcgplayer?.prices;
@@ -34,16 +40,13 @@ export function GenericCardCollection({typeCollection, collection, onCardRemove,
     };
 
     const totalPrice = sortedCards.reduce(
-        (acc, { card, count }) => acc + (getFirstMarketPrice(card) * count),
+        (acc, {card, count}) => acc + (getFirstMarketPrice(card) * count),
         0
     );
     // --------------------------------------------- FIN WISHLIST ---------------------------------------------
 
 
-
     // --------------------------------------------- GENERAL ---------------------------------------------
-
-
 
 
     if (cards.length === 0) {
@@ -59,13 +62,13 @@ export function GenericCardCollection({typeCollection, collection, onCardRemove,
                             Total de cartas: {total}
                         </div>
                         <div className="collection-grid">
-                            {sortedCards.map(({ card, count }) => (
+                            {sortedCards.map(({card, count}) => (
                                 <div key={card.id} className="cardcollection-card">
                                     <img
                                         src={card.images.small}
                                         alt={card.name}
                                         className="card-img"
-                                        style={{ cursor: 'pointer' }}
+                                        style={{cursor: 'pointer'}}
                                         onClick={() => onCardRemove(card.id)}
                                     />
                                     <div className="cardcollection-count">
@@ -74,13 +77,15 @@ export function GenericCardCollection({typeCollection, collection, onCardRemove,
                                             onClick={() => onCardRemove(card.id)}
                                             type="button"
                                             disabled={count <= 1}
-                                        >-</button>
+                                        >-
+                                        </button>
                                         Cantidad: {count}
                                         <button
                                             className="card-btn"
                                             onClick={() => onAddCard(card.id)}
                                             type="button"
-                                        >+</button>
+                                        >+
+                                        </button>
                                     </div>
                                 </div>
                             ))}
@@ -88,57 +93,62 @@ export function GenericCardCollection({typeCollection, collection, onCardRemove,
                     </div>
                 );
             case 'deck':
-                return (  <div className="collection-wrapper">
-                    <div className="collection-total">
-                        Total de cartas: {total}
-                        <span className="proxy-total">
+                return (
+                    <div className="collection-wrapper">
+                        <div className="collection-total">
+                            Total de cartas: {total}
+                            <span className="proxy-total">
                     Proxys: {totalProxies}
                 </span>
-                    </div>
-                    <div className="collection-grid">
-                        {sortedCards.map(({card, count, proxy = 0}) => (
-                            <div key={card.id} className="cardcollection-card">
-                                <img
-                                    src={card.images.small}
-                                    alt={card.name}
-                                    className="card-img"
-                                    style={{cursor: 'pointer'}}
-                                    onClick={() => onCardRemove(card.id)}
-                                />
-                                <div className="cardcollection-count">
-                                    <button
-                                        className="proxy-btn"
+                        </div>
+                        <div className="collection-grid">
+                            {sortedCards.map(({card, count, proxy = 0}) => (
+                                <div key={card.id} className="cardcollection-card">
+                                    <img
+                                        src={card.images.small}
+                                        alt={card.name}
+                                        className="card-img"
+                                        style={{cursor: 'pointer'}}
                                         onClick={() => onCardRemove(card.id)}
-                                        type="button"
-                                        disabled={count <= 1}
-                                    >-</button>
-                                    Cantidad: {count}
-                                    <button
-                                        className="proxy-btn"
-                                        onClick={() => onAddCard(card.id)}
-                                        type="button"
-                                    >+</button>
+                                    />
+                                    <div className="cardcollection-count">
+                                        <button
+                                            className="proxy-btn"
+                                            onClick={() => onCardRemove(card.id)}
+                                            type="button"
+                                            disabled={count <= 1}
+                                        >-
+                                        </button>
+                                        Cantidad: {count}
+                                        <button
+                                            className="proxy-btn"
+                                            onClick={() => onAddCard(card.id)}
+                                            type="button"
+                                        >+
+                                        </button>
+                                    </div>
+                                    <div className="cardcollection-proxy-controls">
+                                        <button
+                                            className="proxy-btn"
+                                            onClick={() => onRemoveProxy(card.id)}
+                                            type="button"
+                                            disabled={proxy === 0}
+                                        >-
+                                        </button>
+                                        <span className="proxy-count">Proxy: {proxy}</span>
+                                        <button
+                                            className="proxy-btn"
+                                            onClick={() => onAddProxy(card.id)}
+                                            type="button"
+                                        >+
+                                        </button>
+                                    </div>
                                 </div>
-                                <div className="cardcollection-proxy-controls">
-                                    <button
-                                        className="proxy-btn"
-                                        onClick={() => onRemoveProxy(card.id)}
-                                        type="button"
-                                        disabled={proxy === 0}
-                                    >-</button>
-                                    <span className="proxy-count">Proxy: {proxy}</span>
-                                    <button
-                                        className="proxy-btn"
-                                        onClick={() => onAddProxy(card.id)}
-                                        type="button"
-                                    >+</button>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                </div>);
+                            ))}
+                        </div>
+                    </div>);
             case 'wishlist':
-                return (       <div className="collection-wrapper">
+                return (<div className="collection-wrapper">
                     <div className="collection-total">
                         Total de cartas: {total}
                     </div>
@@ -149,13 +159,13 @@ export function GenericCardCollection({typeCollection, collection, onCardRemove,
                         </div>
                     </div>
                     <div className="collection-grid">
-                        {sortedCards.map(({ card, count }) => (
+                        {sortedCards.map(({card, count}) => (
                             <div key={card.id} className="cardcollection-card">
                                 <img
                                     src={card.images.small}
                                     alt={card.name}
                                     className="card-img"
-                                    style={{ cursor: 'pointer' }}
+                                    style={{cursor: 'pointer'}}
                                     onClick={() => onCardRemove(card.id)}
                                 />
                                 <div className="cardcollection-count">
@@ -164,13 +174,15 @@ export function GenericCardCollection({typeCollection, collection, onCardRemove,
                                         onClick={() => onCardRemove(card.id)}
                                         type="button"
                                         disabled={count <= 1}
-                                    >-</button>
+                                    >-
+                                    </button>
                                     Cantidad: {count}
                                     <button
                                         className="card-btn"
                                         onClick={() => onAddCard(card.id)}
                                         type="button"
-                                    >+</button>
+                                    >+
+                                    </button>
                                 </div>
                                 <div>Precio: ${getFirstMarketPrice(card)}</div>
                             </div>
@@ -181,6 +193,7 @@ export function GenericCardCollection({typeCollection, collection, onCardRemove,
                 return null;
         }
     }
+
     // --------------------------------------------- FIN GENERAL -----------------------------------------------
 
     return (
