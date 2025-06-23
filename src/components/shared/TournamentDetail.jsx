@@ -1,0 +1,84 @@
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import "../../styles/TournamentDetail.css";
+
+export function TournamentDetail() {
+    const { id } = useParams();
+    const [torneo, setTorneo] = useState(null);
+
+    useEffect(() => {
+        fetch('/data/tournaments.json')
+            .then(res => res.json())
+            .then(data => {
+                const found = data.find(t => String(t.id) === String(id));
+                setTorneo(found);
+            });
+    }, [id]);
+
+    if (!torneo) return <div style={{ padding: 24 }}>Cargando...</div>;
+
+    function renderMazoConIconos(p) {
+        return (
+            <>
+                {p.mazo}
+                {Array.isArray(p.iconos) && p.iconos.map((iconUrl, i) => (
+                    <img
+                        key={i}
+                        src={iconUrl}
+                        alt=""
+                        style={{ width: 24, height: 24, marginLeft: 6, verticalAlign: "middle" }}
+                    />
+                ))}
+            </>
+        );
+    }
+
+    return (
+        <div className="tournament-detail-container">
+            <h2>Detalle del Torneo #{torneo.id}</h2>
+            <p><strong>Fecha:</strong> {torneo.fecha}</p>
+
+            <h3>Posiciones</h3>
+            <table className="tournament-detail-table">
+                <thead>
+                <tr>
+                    <th>Puesto</th>
+                    <th>Jugador</th>
+                    <th>Mazo</th>
+                </tr>
+                </thead>
+                <tbody>
+                {torneo.posiciones?.map((p, i) => (
+                    <tr key={i}>
+                        <td>{p.puesto}</td>
+                        <td>{p.jugador}</td>
+                        <td>{renderMazoConIconos(p)}</td>
+                    </tr>
+                ))}
+                </tbody>
+            </table>
+
+            <h3>Cruces</h3>
+            <table className="tournament-detail-table">
+                <thead>
+                <tr>
+                    <th>Ronda</th>
+                    <th>Jugador 1</th>
+                    <th>Jugador 2</th>
+                    <th>Ganador</th>
+                </tr>
+                </thead>
+                <tbody>
+                {torneo.cruces?.map((c, i) => (
+                    <tr key={i}>
+                        <td>{c.ronda}</td>
+                        <td>{c.jugador1}</td>
+                        <td>{c.jugador2}</td>
+                        <td>{c.ganador}</td>
+                    </tr>
+                ))}
+                </tbody>
+            </table>
+        </div>
+    );
+}
