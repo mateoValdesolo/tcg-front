@@ -54,7 +54,7 @@ export function MyDecks() {
     useEffect(() => {
         if (!userId) return;
         const fetchDecks = async () => {
-            const res = await fetch(`/netlify/functions/decks?id=${userId}`);
+            const res = await fetch(`./netlify/functions/decks?id=${userId}`);
             if (res.ok) {
                 const data = await res.json();
                 if (data.length) {
@@ -64,7 +64,7 @@ export function MyDecks() {
                     // Cargar logos individuales de cada mazo
                     const logosObj = {};
                     await Promise.all(decksArr.map(async (deck) => {
-                        const resDeck = await fetch(`/netlify/functions/deck?id=${userId}&deckName=${encodeURIComponent(deck.name)}`);
+                        const resDeck = await fetch(`./netlify/functions/deck?id=${userId}&deckName=${encodeURIComponent(deck.name)}`);
                         if (resDeck.ok) {
                             const deckData = await resDeck.json();
                             if (deckData.length && deckData[0].logos) {
@@ -83,7 +83,7 @@ export function MyDecks() {
         if (!userId) return;
         // Evita POST vacíos
         if ((!decks || decks.length === 0) && (!deckLogos || Object.keys(deckLogos).length === 0)) return;
-        fetch('/netlify/functions/decks', {
+        fetch('./netlify/functions/decks', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
