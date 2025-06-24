@@ -100,11 +100,7 @@ export function Binder() {
             const res = await fetch(`/netlify/functions/binder?id=${userId}`);
             if (res.ok) {
                 const data = await res.json();
-                if (data.length && data[0].cartas) {
-                    setCollection(JSON.parse(data[0].cartas));
-                } else {
-                    setCollection({});
-                }
+                setCollection(data[0].cartas ? JSON.parse(data[0].cartas) : {});
             }
         };
         fetchCollection();
