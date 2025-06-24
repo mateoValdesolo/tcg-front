@@ -85,7 +85,7 @@ export function Binder() {
         if (!userId) return;
         if (!collection || Object.keys(collection).length === 0) return; // Evita POST vacíos
         const guardarColeccion = async () => {
-            await fetch('/.netlify/functions/binder', {
+            await fetch('/netlify/functions/binder', {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({id: userId, cartas: JSON.stringify(collection)})
@@ -97,7 +97,7 @@ export function Binder() {
     useEffect(() => {
         if (!userId) return;
         const fetchCollection = async () => {
-            const res = await fetch(`/.netlify/functions/binder?id=${userId}`);
+            const res = await fetch(`/netlify/functions/binder?id=${userId}`);
             if (res.ok) {
                 const data = await res.json();
                 if (data.length && data[0].cartas) {
