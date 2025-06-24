@@ -118,6 +118,7 @@ export function DeckView() {
         onlyBasic: false
     });
     const { userId } = useUser();
+    const [isLoaded, setIsLoaded] = useState(false);
 
 
     const handleFilterChange = (e) => {
@@ -272,20 +273,19 @@ export function DeckView() {
                 const data = await res.json();
                 if (data.length) {
                     setCollection(data[0].collection ? JSON.parse(data[0].collection) : {});
-                    // Si no hay logos en BD, intenta cargar de localStorage
                     if (data[0].logos) {
                         setLogoPokemon(JSON.parse(data[0].logos));
                     }
                 }
             }
+            setIsLoaded(true); // Marca como cargado
         };
         fetchDeck();
     }, [userId, deckName]);
 
 
     useEffect(() => {
-        if (!userId || !deckName) return;
-        // Siempre envía ambos campos, aunque estén vacíos
+        if (!userId || !deckName || !isLoaded) return;
         fetch('/.netlify/functions/deck', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -296,8 +296,7 @@ export function DeckView() {
                 logos: JSON.stringify(logoPokemon || [])
             })
         });
-    }, [logoPokemon, userId, deckName]);
-
+    }, [collection, userId, deckName, logoPokemon, isLoaded]);
 
     // Cierra el menú si se hace clic fuera
     useEffect(() => {
