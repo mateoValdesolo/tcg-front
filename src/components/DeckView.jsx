@@ -268,7 +268,7 @@ export function DeckView() {
     useEffect(() => {
         if (!userId || !deckName) return;
         const fetchDeck = async () => {
-            const res = await fetch(`./netlify/functions/deck?id=${userId}&deckName=${encodeURIComponent(deckName)}`);
+            const res = await fetch(`/.netlify/functions/deck?id=${userId}&deckName=${encodeURIComponent(deckName)}`);
             if (res.ok) {
                 const data = await res.json();
                 if (data.length) {
@@ -286,7 +286,7 @@ export function DeckView() {
 
     useEffect(() => {
         if (!userId || !deckName || !isLoaded) return;
-        fetch('./netlify/functions/deck', {
+        fetch('/.netlify/functions/deck', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
