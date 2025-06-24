@@ -3,6 +3,7 @@ import '../styles/Binder.css';
 import pokemon from "../api/pokemon.js";
 import { CardGrid } from './shared/CardGrid.jsx';
 import { CardCollection } from './shared/CardCollection.jsx';
+import { useUser } from '../context/UserContext.jsx';
 
 export function Binder() {
     const [search, setSearch] = useState('');
@@ -18,6 +19,7 @@ export function Binder() {
         energy: false,
         onlyBasic: false
     });
+    const { userId } = useUser();
 
     const handleFilterChange = (e) => {
         const { name, checked } = e.target;
@@ -79,16 +81,36 @@ export function Binder() {
         setCards(result.data);
     };
 
-    // Cargar colección desde localStorage al iniciar
     useEffect(() => {
-        const stored = localStorage.getItem('binderCollection');
-        if (stored) setCollection(JSON.parse(stored));
-    }, []);
+        if (!userId) return;
+        if (!collection || Object.keys(collection).length === 0) return; // Evita POST vacíos
+        const guardarColeccion = async () => {
+            await fetch('/.netlify/functions/binder', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({id: userId, cartas: JSON.stringify(collection)})
+            });
+        };
+        guardarColeccion();
+    }, [collection, userId]);
 
-    // Guardar colección en localStorage cuando cambie
     useEffect(() => {
-        localStorage.setItem('binderCollection', JSON.stringify(collection));
-    }, [collection]);
+        if (!userId) return;
+        const fetchCollection = async () => {
+            const res = await fetch(`/.netlify/functions/binder?id=${userId}`);
+            if (res.ok) {
+                const data = await res.json();
+                if (data.length && data[0].cartas) {
+                    setCollection(JSON.parse(data[0].cartas));
+                } else {
+                    setCollection({});
+                }
+            }
+        };
+        fetchCollection();
+    }, [userId]);
+
+
 
     const handleCardRemove = (cardId) => {
         setCollection(prev => {
@@ -137,7 +159,7 @@ export function Binder() {
     return (
         <div className="binder-container">
             <div className="binder-box binder-left">
-                <CardCollection collection={collection} onCardRemove={handleCardRemove} onAddCard={handleAddCard} />
+                <CardCollection collection={collection}  userId={userId} onCardRemove={handleCardRemove} onAddCard={handleAddCard} />
             </div>
             <div className="binder-divider"></div>
             <div className="binder-box binder-right" >

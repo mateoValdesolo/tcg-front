@@ -75,3 +75,41 @@ li:not(.exclude) a:hover {
 .exclude a {
     text-decoration: none;
 }
+
+.login-btn-right {
+    float: right;
+    display: flex;
+    height: 44px;
+    margin-right: 1.5em;
+    margin-left: 0;
+}
+
+.logout-btn {
+    color: rgb(0, 0, 0);
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    margin: 0 auto;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 22px;
+    background-color: #67ffa8;
+    border: solid #67ffa8 2px;
+    border-radius: 50px;
+    transition: 1228ms;
+    transform: translateY(0);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    cursor: pointer;
+    height: 44px;
+    box-sizing: border-box;
+    outline: none;
+}
+
+.logout-btn:hover {
+    padding: 10px 40px;
+    background-color: #42be77;
+    color: #ffffff;
+    border: solid 2px #42be77;
+}

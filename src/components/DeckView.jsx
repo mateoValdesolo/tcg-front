@@ -4,6 +4,7 @@ import '../styles/DeckView.css';
 import pokemon from "../api/pokemon.js";
 import {CardGrid} from './shared/CardGrid.jsx';
 import {CardCollectionDeck} from './shared/CardCollectionDeck.jsx';
+import { useUser } from '../context/UserContext.jsx';
 
 function calcularProbabilidadMulligan(collection) {
     let total = 0;
@@ -116,16 +117,8 @@ export function DeckView() {
         energy: false,
         onlyBasic: false
     });
+    const { userId } = useUser();
 
-    useEffect(() => {
-        const stored = localStorage.getItem(`deckLogo:${deckName}`);
-        if (stored) setLogoPokemon(JSON.parse(stored));
-    }, [deckName]);
-
-    // Guardar logos cuando cambien
-    useEffect(() => {
-        localStorage.setItem(`deckLogo:${deckName}`, JSON.stringify(logoPokemon));
-    }, [deckName, logoPokemon]);
 
     const handleFilterChange = (e) => {
         const { name, checked } = e.target;
@@ -270,16 +263,41 @@ export function DeckView() {
     }
 
 
-    // Cargar colección del mazo desde localStorage al iniciar
+    // Cargar colección y logos desde la base de datos al iniciar
     useEffect(() => {
-        const stored = localStorage.getItem(`deckCollection:${deckName}`);
-        if (stored) setCollection(JSON.parse(stored));
-    }, [deckName]);
+        if (!userId || !deckName) return;
+        const fetchDeck = async () => {
+            const res = await fetch(`/.netlify/functions/deck?id=${userId}&deckName=${encodeURIComponent(deckName)}`);
+            if (res.ok) {
+                const data = await res.json();
+                if (data.length) {
+                    setCollection(data[0].collection ? JSON.parse(data[0].collection) : {});
+                    // Si no hay logos en BD, intenta cargar de localStorage
+                    if (data[0].logos) {
+                        setLogoPokemon(JSON.parse(data[0].logos));
+                    }
+                }
+            }
+        };
+        fetchDeck();
+    }, [userId, deckName]);
 
-    // Guardar colección del mazo en localStorage cuando cambie
+
     useEffect(() => {
-        localStorage.setItem(`deckCollection:${deckName}`, JSON.stringify(collection));
-    }, [deckName, collection]);
+        if (!userId || !deckName) return;
+        // Siempre envía ambos campos, aunque estén vacíos
+        fetch('/.netlify/functions/deck', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                id: userId,
+                deckName,
+                collection: JSON.stringify(collection),
+                logos: JSON.stringify(logoPokemon || [])
+            })
+        });
+    }, [logoPokemon, userId, deckName]);
+
 
     // Cierra el menú si se hace clic fuera
     useEffect(() => {
