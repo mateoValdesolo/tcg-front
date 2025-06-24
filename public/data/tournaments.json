@@ -1,0 +1,20 @@
+[
+  {
+    "id": 1,
+    "fecha": "2024-06-01",
+    "formato": "BO3",
+    "jugadores": 16,
+    "posiciones": [
+      { "puesto": 1, "jugador": "Franco Gei", "mazo": "Charizard-Dudunsparce", "iconos": [
+        "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/6.png",
+        "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/982.png"
+      ] },
+      { "puesto": 2, "jugador": "Luis Gómez", "mazo": "Magos" }
+    ],
+    "cruces": [
+      { "ronda": "Semifinal", "jugador1": "Ana Pérez", "jugador2": "Carlos Ruiz", "ganador": "Ana Pérez" },
+      { "ronda": "Semifinal", "jugador1": "Luis Gómez", "jugador2": "María López", "ganador": "Luis Gómez" },
+      { "ronda": "Final", "jugador1": "Ana Pérez", "jugador2": "Luis Gómez", "ganador": "Ana Pérez" }
+    ]
+  }
+]

@@ -105,6 +105,8 @@ export function DeckView() {
     const [isImporting, setIsImporting] = useState(false);
     const [showExported, setShowExported] = useState(false);
     const [showFilters, setShowFilters] = useState(false);
+    const [showLogoPicker, setShowLogoPicker] = useState(false);
+    const [logoPokemon, setLogoPokemon] = useState([]);
     const [filters, setFilters] = useState({
         pokemon: false,
         item: false,
@@ -114,6 +116,16 @@ export function DeckView() {
         energy: false,
         onlyBasic: false
     });
+
+    useEffect(() => {
+        const stored = localStorage.getItem(`deckLogo:${deckName}`);
+        if (stored) setLogoPokemon(JSON.parse(stored));
+    }, [deckName]);
+
+    // Guardar logos cuando cambien
+    useEffect(() => {
+        localStorage.setItem(`deckLogo:${deckName}`, JSON.stringify(logoPokemon));
+    }, [deckName, logoPokemon]);
 
     const handleFilterChange = (e) => {
         const { name, checked } = e.target;
@@ -459,11 +471,31 @@ export function DeckView() {
     //     }
     // };
 
+    const uniquePokemon = {};
+    Object.values(collection)
+        .filter(({card}) => card.supertype === 'Pokémon')
+        .forEach(({card}) => {
+            const num = card.nationalPokedexNumbers?.[0] || card.nationalPokedexNumber;
+            if (num && !uniquePokemon[num]) {
+                uniquePokemon[num] = card;
+            }
+        });
+
     return (
         <div className="binder-container">
             <div className="binder-box binder-left">
                 <div className="deck-header" ref={toolsRef} style={{position: 'relative'}}>
-                    <h2 className="deck-title">{deckName}</h2>
+                    <h2 className="deck-title">
+                        {deckName}
+                        {logoPokemon.map(l => (
+                            <img
+                                key={l.id}
+                                src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${l.nationalPokedexNumber}.png`}
+                                alt={l.name}
+                                style={{width: 50, height: 50, marginRight: 1, verticalAlign: 'middle'}}
+                            />
+                        ))}
+                    </h2>
                     <button
                         className="tool-btn"
                         title="Herramientas"
@@ -473,6 +505,15 @@ export function DeckView() {
                     </button>
                     {showTools && (
                         <div className="tools-menu">
+                            <button
+                                className="tools-menu-item"
+                                onClick={() => {
+                                    setShowLogoPicker(true);
+                                    setShowTools(false);
+                                }}
+                            >
+                                Elegir logo
+                            </button>
                             <button
                                 className="tools-menu-item"
                                 onClick={() => {
@@ -525,6 +566,44 @@ export function DeckView() {
                 {/*        </div>*/}
                 {/*    </div>*/}
                 {/*)}*/}
+                {showLogoPicker && (
+                    <div className="modal-overlay" onClick={() => setShowLogoPicker(false)}>
+                        <div className="modal-content" onClick={e => e.stopPropagation()}>
+                            <h3>Elige hasta 2 Pokémon como logo</h3>
+                            <div style={{display: 'flex', flexWrap: 'wrap', gap: 12, justifyContent: 'center'}}>
+                                {
+                                    Object.values(uniquePokemon).map(card => (
+                                    <img
+                                    key={card.id}
+                                src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${card.nationalPokedexNumbers?.[0]}.png`}
+                                alt={card.name}
+                                style={{
+                                    width: 48,
+                                    height: 48,
+                                    border: logoPokemon.some(lp => lp.id === card.id) ? '2px solid #1976d2' : '2px solid transparent',
+                                    borderRadius: 8,
+                                    cursor: 'pointer',
+                                    background: '#f5f5f5'
+                                }}
+                                onClick={() => {
+                                    setLogoPokemon(prev => {
+                                        const exists = prev.find(l => l.id === card.id);
+                                        if (exists) {
+                                            return prev.filter(l => l.id !== card.id);
+                                        }
+                                        if (prev.length < 2) {
+                                            return [...prev, { id: card.id, nationalPokedexNumber: card.nationalPokedexNumbers?.[0] }];
+                                        }
+                                        return prev;
+                                    });
+                                }}
+                            />
+                            ))}
+                            </div>
+                            <button onClick={() => setShowLogoPicker(false)}>Cerrar</button>
+                        </div>
+                    </div>
+                )}
                 {showStats && (
                     <div className="modal-overlay" onClick={() => setShowStats(false)}>
                         <div className="modal-content" onClick={e => e.stopPropagation()}>

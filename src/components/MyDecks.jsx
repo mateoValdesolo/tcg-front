@@ -6,7 +6,18 @@ export function MyDecks() {
     const [decks, setDecks] = useState([]);
     const [creating, setCreating] = useState(false);
     const [newDeckName, setNewDeckName] = useState('');
+    const [deckLogos, setDeckLogos] = useState({});
     const navigate = useNavigate();
+    const [error, setError] = useState('');
+
+    useEffect(() => {
+        const logos = {};
+        decks.forEach(deck => {
+            const stored = localStorage.getItem(`deckLogo:${deck.name}`);
+            if (stored) logos[deck.name] = JSON.parse(stored);
+        });
+        setDeckLogos(logos);
+    }, [decks]);
 
     useEffect(() => {
         const storedDecks = JSON.parse(localStorage.getItem('decks')) || [];
@@ -28,10 +39,15 @@ export function MyDecks() {
     const handleDeckSubmit = (e) => {
         e.preventDefault();
         if (!newDeckName.trim()) return;
+        if (decks.some(deck => deck.name.trim().toLowerCase() === newDeckName.trim().toLowerCase())) {
+            setError('Ya existe un mazo con ese nombre.');
+            return;
+        }
         const newDeck = { name: newDeckName };
         setDecks(prev => [...prev, newDeck]);
         setNewDeckName('');
         setCreating(false);
+        setError('');
         navigate('/deckview', { state: { deckName: newDeckName } });
     };
 
@@ -56,6 +72,15 @@ export function MyDecks() {
                     onSubmit={handleDeckSubmit}
                     className="deck-form"
                 >
+                    {error && (
+                        <div className="modal-overlay" onClick={() => setError('')}>
+                            <div className="modal-content" onClick={e => e.stopPropagation()}>
+                                <h3>Error</h3>
+                                <p>{error}</p>
+                                <button onClick={() => setError('')}>Cerrar</button>
+                            </div>
+                        </div>
+                    )}
                     <input
                         type="text"
                         placeholder="Nombre del mazo"
@@ -78,8 +103,16 @@ export function MyDecks() {
                             className="deck-item"
                             onClick={() => navigate('/deckview', { state: { deckName: deck.name } })}
                         >
-                            <span onClick={() => navigate('/deckview', { state: { deckName: deck.name } })}>
-                                {deck.name}
+                      <span onClick={() => navigate('/deckview', { state: { deckName: deck.name } })}>
+                          {deck.name}
+                                {(deckLogos[deck.name] || []).map(l => (
+                                    <img
+                                        key={l.id}
+                                        src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${l.nationalPokedexNumber}.png`}
+                                        alt=""
+                                        style={{width: 25, height: 25, marginRight: 2, verticalAlign: 'middle'}}
+                                    />
+                                ))}
                             </span>
                             <button
                                 className="delete-deck-btn"
