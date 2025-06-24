@@ -1,0 +1,65 @@
+[
+  {
+    "id": 1,
+    "fecha": "21/06/2024",
+    "formato": "BO1",
+    "jugadores": 24,
+    "posiciones": [
+      { "puesto": 1, "jugador": "Agus Ch", "mazo": "","iconos": [
+      ]  },
+      { "puesto": 2, "jugador": "Juli", "mazo": "" },
+      { "puesto": 3, "jugador": "Fran/Mel", "mazo": "" },
+      { "puesto": 4, "jugador": "Agustina", "mazo": "" },
+      { "puesto": 5, "jugador": "Santi", "mazo": "" },
+      { "puesto": 6, "jugador": "Nico G", "mazo": "" },
+      { "puesto": 7, "jugador": "Antoni", "mazo": "" },
+      { "puesto": 8, "jugador": "Tincho", "mazo": "" },
+      { "puesto": 9, "jugador": "Beni", "mazo": "" },
+      { "puesto": 10, "jugador": "Javier", "mazo": "" },
+      { "puesto": 11, "jugador": "Brandon", "mazo": "" },
+      { "puesto": 12, "jugador": "Valen", "mazo": "" },
+      { "puesto": 13, "jugador": "Lucas", "mazo": "" },
+      { "puesto": 14, "jugador": "Dario", "mazo": "" },
+      { "puesto": 15, "jugador": "Manu", "mazo": "" },
+      { "puesto": 16, "jugador": "Kyri", "mazo": "" },
+      { "puesto": 17, "jugador": "Cris", "mazo": "" },
+      { "puesto": 18, "jugador": "Fabry", "mazo": "" },
+      { "puesto": 19, "jugador": "Mateo", "mazo": "" },
+      { "puesto": 20, "jugador": "Elias", "mazo": "" },
+      { "puesto": 21, "jugador": "Angel", "mazo": "" },
+      { "puesto": 22, "jugador": "Fran S", "mazo": "" },
+      { "puesto": 23, "jugador": "Nico C", "mazo": "" },
+      { "puesto": 24, "jugador": "Paulo", "mazo": "" }
+    ],
+    "cruces": [
+      { "ronda": "1ra", "jugador1": "Fran/Mel", "jugador2": "Brandon", "ganador": "Fran/Mel" },
+      { "ronda": "1ra", "jugador1": "Santi", "jugador2": "Nico C", "ganador": "Santi" },
+      { "ronda": "1ra", "jugador1": "Tincho", "jugador2": "Mateo", "ganador": "Tincho" },
+      { "ronda": "1ra", "jugador1": "Juli", "jugador2": "Valen", "ganador": "Juli" },
+      { "ronda": "1ra", "jugador1": "Fabry", "jugador2": "Antoni", "ganador": "Antoni" },
+      { "ronda": "1ra", "jugador1": "Elias", "jugador2": "Dario", "ganador": "Dario" },
+      { "ronda": "1ra", "jugador1": "Manu", "jugador2": "Agustina", "ganador": "Agustina" },
+      { "ronda": "1ra", "jugador1": "Beni", "jugador2": "Kyri", "ganador": "Beni" },
+      { "ronda": "1ra", "jugador1": "Fran S", "jugador2": "Cris", "ganador": "Cris" },
+      { "ronda": "1ra", "jugador1": "Javier", "jugador2": "Paulo", "ganador": "Javier" },
+      { "ronda": "1ra", "jugador1": "Angel", "jugador2": "Agus Ch", "ganador": "Agus Ch" },
+      { "ronda": "1ra", "jugador1": "Nico G", "jugador2": "Lucas", "ganador": "Nico G" },
+
+      { "ronda": "2da", "jugador1": "Tincho", "jugador2": "Beni", "ganador": "Beni" },
+
+      { "ronda": "2da", "jugador1": "Santi", "jugador2": "Nico C", "ganador": "Nico C" },
+      { "ronda": "2da", "jugador1": "Tincho", "jugador2": "Mateo", "ganador": "Tincho" },
+      { "ronda": "2da", "jugador1": "Juli", "jugador2": "Valen", "ganador": "" },
+      { "ronda": "2da", "jugador1": "Fabry", "jugador2": "Antoni", "ganador": "" },
+      { "ronda": "2da", "jugador1": "Elias", "jugador2": "Dario", "ganador": "" },
+      { "ronda": "2da", "jugador1": "Manu", "jugador2": "Agustina", "ganador": "" },
+      { "ronda": "2da", "jugador1": "Beni", "jugador2": "Kyri", "ganador": "" },
+      { "ronda": "2da", "jugador1": "Fran S", "jugador2": "Cris", "ganador": "" },
+      { "ronda": "2da", "jugador1": "Javier", "jugador2": "Paulo", "ganador": "Javier" },
+      { "ronda": "2da", "jugador1": "Angel", "jugador2": "Agus Ch", "ganador": "Agus Ch" },
+      { "ronda": "2da", "jugador1": "Nico G", "jugador2": "Luis Gómez", "ganador": "Lucas" }
+
+
+    ]
+  }
+]

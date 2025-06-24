@@ -5,14 +5,12 @@ export function CardCollectionWish({ collection, onCardRemove, onAddCard }) {
     const cards = Object.values(collection);
     const total = cards.reduce((acc, { count }) => acc + count, 0);
 
-
     const getTypePriority = (card) => {
-        // Ajusta según cómo se almacene el tipo en tu objeto card
         if (card.supertype === 'Pokémon') return 0;
-        if (card.subtypes[0] === 'Supporter') return 1;
-        if (card.subtypes[0] === 'Item') return 2;
-        if (card.subtypes[0] === 'Pokémon Tool') return 3;
-        if (card.subtypes[0] === 'Stadium') return 4;
+        if (card.subtypes?.[0] === 'Supporter') return 1;
+        if (card.subtypes?.[0] === 'Item') return 2;
+        if (card.subtypes?.[0] === 'Pokémon Tool') return 3;
+        if (card.subtypes?.[0] === 'Stadium') return 4;
         if (card.supertype === 'Energy') return 5;
         return 6;
     };
@@ -25,7 +23,6 @@ export function CardCollectionWish({ collection, onCardRemove, onAddCard }) {
         return <div className="cardcollection-empty">No has agregado cartas aún.</div>;
     }
 
-    // Obtiene la primera clave de prices y accede a su market
     const getFirstMarketPrice = (card) => {
         const prices = card.tcgplayer?.prices;
         if (!prices) return 'N/A';
@@ -34,11 +31,12 @@ export function CardCollectionWish({ collection, onCardRemove, onAddCard }) {
     };
 
     const totalPrice = sortedCards.reduce(
-        (acc, { card, count }) => acc + (getFirstMarketPrice(card) * count),
+        (acc, { card, count }) => {
+            const price = parseFloat(getFirstMarketPrice(card));
+            return acc + (isNaN(price) ? 0 : price * count);
+        },
         0
     );
-
-
 
     return (
         <div className="collection-wrapper">
