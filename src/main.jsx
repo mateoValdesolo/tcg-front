@@ -6,7 +6,7 @@ import './styles/main.css'
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
-    <GoogleOAuthProvider clientId="846892188674-16ukbs2f4klvau3jsuit9cq1uqdsm0ue.apps.googleusercontent.com">
+    <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID}>
         <App />
     </GoogleOAuthProvider>
 )
