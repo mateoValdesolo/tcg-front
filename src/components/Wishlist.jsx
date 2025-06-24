@@ -25,7 +25,7 @@ export function Wishlist() {
     useEffect(() => {
         if (!userId) return;
         const fetchWishlist = async () => {
-            const res = await fetch(`/.netlify/functions/wishlist?id=${userId}`);
+            const res = await fetch(`/netlify/functions/wishlist?id=${userId}`);
             if (res.ok) {
                 const data = await res.json();
                 setCollection(data.collection ? JSON.parse(data.collection) : {});
@@ -37,7 +37,7 @@ export function Wishlist() {
 
     useEffect(() => {
         if (!userId || !isLoaded) return;
-        fetch('/.netlify/functions/wishlist', {
+        fetch('/netlify/functions/wishlist', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
