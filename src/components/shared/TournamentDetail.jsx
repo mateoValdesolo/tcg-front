@@ -26,7 +26,7 @@ export function TournamentDetail() {
                         key={i}
                         src={iconUrl}
                         alt=""
-                        style={{ width: 24, height: 24, marginLeft: 6, verticalAlign: "middle" }}
+                        style={{ width: 35, height: 35, marginLeft: 6, verticalAlign: "middle" }}
                     />
                 ))}
             </>
