@@ -33,6 +33,19 @@ export function TournamentDetail() {
         );
     }
 
+    function groupByRonda(cruces) {
+        return cruces.reduce((acc, c) => {
+            if (!acc[c.ronda]) acc[c.ronda] = [];
+            acc[c.ronda].push(c);
+            return acc;
+        }, {});
+    }
+
+
+    if (!torneo) return <div style={{ padding: 24 }}>Cargando...</div>;
+
+    const crucesPorRonda = groupByRonda(torneo.cruces || []);
+
     return (
         <div className="tournament-detail-container">
             <h2>Detalle del Torneo #{torneo.id}</h2>
@@ -45,6 +58,7 @@ export function TournamentDetail() {
                     <th>Puesto</th>
                     <th>Jugador</th>
                     <th>Mazo</th>
+                    <th>Partidas</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -53,6 +67,7 @@ export function TournamentDetail() {
                         <td>{p.puesto}</td>
                         <td>{p.jugador}</td>
                         <td>{renderMazoConIconos(p)}</td>
+                        <td>{p.partidas}</td>
                     </tr>
                 ))}
                 </tbody>
@@ -69,13 +84,26 @@ export function TournamentDetail() {
                 </tr>
                 </thead>
                 <tbody>
-                {torneo.cruces?.map((c, i) => (
-                    <tr key={i}>
-                        <td>{c.ronda}</td>
-                        <td>{c.jugador1}</td>
-                        <td>{c.jugador2}</td>
-                        <td>{c.ganador}</td>
-                    </tr>
+                {Object.entries(crucesPorRonda).map(([ronda, cruces]) => (
+                    <React.Fragment key={ronda}>
+                        <tr>
+                            <td colSpan={4} style={{ background: "#f0f0f0", fontWeight: "bold" }}>{ronda}</td>
+                        </tr>
+                        {cruces.map((c, i) => (
+                            <tr key={i}>
+                                <td></td>
+                                <td style={{ color: c.ganador === c.jugador1 ? "green" : undefined }}>
+                                    {c.jugador1}
+                                </td>
+                                <td style={{ color: c.ganador === c.jugador2 ? "green" : undefined }}>
+                                    {c.jugador2}
+                                </td>
+                                <td style={{ color: "green", fontWeight: "bold" }}>
+                                    {c.ganador}
+                                </td>
+                            </tr>
+                        ))}
+                    </React.Fragment>
                 ))}
                 </tbody>
             </table>
