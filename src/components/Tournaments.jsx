@@ -6,11 +6,22 @@ export function Tournaments() {
     const [tournaments, setTournaments] = useState([]);
     const navigate = useNavigate();
 
+    // useEffect(() => {
+    //     fetch('/data/tournaments.json')
+    //         .then(res => res.json())
+    //         .then(data => setTournaments(data));
+    // }, []);
+
     useEffect(() => {
-        fetch('/data/tournaments.json')
-            .then(res => res.json())
-            .then(data => setTournaments(data));
-    }, []);
+        const fetchTournaments = async () => {
+            const res = await fetch(`/.netlify/functions/torneos`);
+            if (res.ok) {
+                const data = await res.json();
+                setTournaments(data);
+            }
+        };
+        fetchTournaments();
+    },[] );
 
     return (
         <div className="tournaments-container">
@@ -35,7 +46,7 @@ export function Tournaments() {
                         <td>{t.posiciones[0].jugador}</td>
                         <td>
                             {t.posiciones[0].mazo}
-                            {t.posiciones[0].iconos.map((iconUrl, i) => (
+                            {(t.posiciones[0].iconos || []).map((iconUrl, i) => (
                                 <img
                                     key={i}
                                     src={iconUrl}

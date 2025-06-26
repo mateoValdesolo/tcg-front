@@ -7,12 +7,15 @@ export function TournamentDetail() {
     const [torneo, setTorneo] = useState(null);
 
     useEffect(() => {
-        fetch('/data/tournaments.json')
-            .then(res => res.json())
-            .then(data => {
+        const fetchTorneo = async () => {
+            const res = await fetch(`/.netlify/functions/torneos`);
+            if (res.ok) {
+                const data = await res.json();
                 const found = data.find(t => String(t.id) === String(id));
                 setTorneo(found);
-            });
+            }
+        };
+        fetchTorneo();
     }, [id]);
 
     if (!torneo) return <div style={{ padding: 24 }}>Cargando...</div>;
@@ -26,7 +29,7 @@ export function TournamentDetail() {
                         key={i}
                         src={iconUrl}
                         alt=""
-                        style={{ width: 24, height: 24, marginLeft: 6, verticalAlign: "middle" }}
+                        style={{ width: 35, height: 35, marginLeft: 6, verticalAlign: "middle" }}
                     />
                 ))}
             </>
