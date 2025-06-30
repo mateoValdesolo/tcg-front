@@ -25,7 +25,14 @@ export function Tournaments() {
 
     return (
         <div className="tournaments-container">
-            <h2>Torneos</h2>
+            <div className="tournaments-header">
+                <h2>Torneos</h2>
+                <img
+                    src="/logoCom.png"
+                    alt="locoCom"
+                    className="locoCom-img"
+                />
+            </div>
             <table className="tournaments-table">
                 <thead>
                 <tr>

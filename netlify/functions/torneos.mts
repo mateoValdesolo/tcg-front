@@ -21,7 +21,7 @@ export default async (req: Request, _context: Context) => {
     if (req.method === "GET") {
         const {searchParams} = new URL(req.url);
 
-        const rows = await sql`SELECT * FROM torneos`;
+        const rows = await sql`SELECT * FROM torneos ORDER BY id DESC`;
         const parsedRows = rows.map(row => ({
             ...row,
             posiciones: JSON.parse(row.posiciones),

@@ -51,7 +51,14 @@ export function TournamentDetail() {
 
     return (
         <div className="tournament-detail-container">
-            <h2>Detalle del Torneo #{torneo.id}</h2>
+            <div className="tournaments-detail-header">
+                <h2>Detalle del Torneo #{torneo.id}</h2>
+                <img
+                    src="/logoCom.png"
+                    alt="locoCom"
+                    className="locoCom-img"
+                />
+            </div>
             <p><strong>Fecha:</strong> {torneo.fecha}</p>
 
             <h3>Posiciones</h3>

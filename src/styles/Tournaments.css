@@ -62,3 +62,15 @@
 .tournament-btn:hover {
     background: linear-gradient(90deg, #ffb74d 0%, #ff7043 100%);
 }
+
+.tournaments-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 24px;
+}
+
+.locoCom-img {
+    height: 70px;
+    margin-left: 16px;
+}
