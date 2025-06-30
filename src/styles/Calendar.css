@@ -121,12 +121,6 @@
     border-bottom: 1px solid #e0e0e0;
 }
 
-.popup-event:last-child {
-    border-bottom: none;
-    margin-bottom: 0;
-    padding-bottom: 0;
-}
-
 .gcal-link {
     display: inline-block;
     margin-top: 14px;
