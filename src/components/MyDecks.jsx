@@ -12,9 +12,6 @@ export function MyDecks() {
     const [error, setError] = useState('');
     const { userId } = useUser();
 
-
-
-
     const handleCreateDeck = () => {
         setCreating(true);
     };

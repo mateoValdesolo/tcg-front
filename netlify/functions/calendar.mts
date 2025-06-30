@@ -5,13 +5,15 @@ const sql = neon();
 
 async function table(){
     await sql(`
-    CREATE TABLE IF NOT EXISTS torneos(
+    CREATE TABLE IF NOT EXISTS calendar(
         id TEXT PRIMARY KEY,
         fecha TEXT NOT NULL,
+        ubicacion TEXT NOT NULL,
         formato TEXT NOT NULL,
-        jugadores TEXT NOT NULL,
-        posiciones TEXT NOT NULL,
-        cruces TEXT NOT NULL
+        inscripcion TEXT,
+        horario TEXT NOT NULL,
+        nombre TEXT NOT NULL,
+        maps TEXT
     )`);
 }
 
@@ -21,11 +23,9 @@ export default async (req: Request, _context: Context) => {
     if (req.method === "GET") {
         const {searchParams} = new URL(req.url);
 
-        const rows = await sql`SELECT * FROM torneos ORDER BY id DESC`;
+        const rows = await sql`SELECT * FROM calendar`;
         const parsedRows = rows.map(row => ({
-            ...row,
-            posiciones: JSON.parse(row.posiciones),
-            cruces: JSON.parse(row.cruces)
+            ...row
         }));
         return new Response(JSON.stringify(parsedRows), {
             headers: {"Content-Type": "application/json"}

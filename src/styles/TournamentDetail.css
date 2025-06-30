@@ -47,3 +47,15 @@
     background: #e0e7ef;
     transition: background 0.2s;
 }
+
+.tournaments-detail-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 24px;
+}
+
+.locoCom-img {
+    height: 70px;
+    margin-left: 16px;
+}

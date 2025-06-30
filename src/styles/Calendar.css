@@ -1,0 +1,229 @@
+.calendar {
+    border-collapse: separate;
+    border-spacing: 0;
+    width: 95vw;
+    max-width: 700px;
+    min-width: 340px;
+    margin: 32px auto;
+    background: #fff;
+    box-shadow: 0 4px 24px #0002;
+    border-radius: 24px;
+    font-family: 'Montserrat', Arial, sans-serif;
+    overflow: hidden;
+}
+
+.calendar th, .calendar td {
+    border: none;
+    width: 14.2%;
+    height: 72px;
+    text-align: center;
+    font-size: 1.5em;
+    font-family: inherit;
+    transition: background 0.2s, color 0.2s;
+}
+
+.calendar th {
+    background: #67ffa8;
+    color: #000000;
+    font-weight: 700;
+    letter-spacing: 1px;
+    font-size: 1.2em;
+}
+
+.calendar td.active {
+    background: #ffffff;
+    color: #222;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+.calendar td.active:hover {
+    background: #67ffa8;
+    color: #000000;
+    box-shadow: 0 2px 8px #67ffa8;
+}
+
+.calendar-container {
+    max-width: 70%;
+    margin: 32px auto;
+    padding: 24px;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    font-family: 'Montserrat', Arial, sans-serif;
+    position: relative;
+}
+
+.calendar-detail-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 24px;
+}
+
+.locoCom-img {
+    height: 70px;
+    margin-left: 16px;
+}
+
+.calendar-events {
+    list-style: none;
+    padding: 0;
+    margin: 4px 0 0 0;
+    font-size: 0.7em;
+    color: #388e3c;
+    text-align: left;
+}
+
+.calendar-events li {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.has-event {
+    position: relative;
+    background: #eafff0;
+    border-bottom: 2px solid #67ffa8;
+}
+
+.event-dot {
+    display: block;
+    width: 10px;
+    height: 10px;
+    background: #67ffa8;
+    border-radius: 50%;
+    margin: 6px auto 0 auto;
+}
+
+.calendar-popup {
+    min-width: 180px;
+    max-width: 260px;
+    background: #fff;
+    border: 1px solid #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 16px #0002;
+    padding: 16px;
+    font-size: 1em;
+    position: absolute;
+    z-index: 10;
+}
+
+.calendar-popup ul {
+    padding-left: 0;
+    list-style: none;
+    margin-top: 8px;
+}
+
+.calendar-popup li {
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.gcal-link {
+    display: inline-block;
+    margin-top: 14px;
+    padding: 10px 22px;
+    background: #34a853;
+    color: #fff !important;
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 0.95em; /* Más pequeño */
+    text-decoration: none;
+    box-shadow: 0 2px 8px #34a85344;
+    transition: background 0.2s, box-shadow 0.2s;
+    cursor: pointer;
+}
+
+.gcal-link:hover {
+    background: #1e7e34;
+    box-shadow: 0 4px 16px #34a85366;
+    text-decoration: none;
+    color: #fff;
+}
+
+.popup-close-button {
+    position: absolute;
+    top: 6px;
+    right: 10px;
+    background: transparent;
+    border: none;
+    font-size: 1.2em;
+    color: #888;
+    cursor: pointer;
+}
+.popup-close-button:hover {
+    color: #000;
+}
+
+/* Modal full-screen overlay */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 100;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Modal box */
+.modal-content {
+    background: #fff;
+    padding: 40px 32px;
+    border-radius: 16px;
+    width: 95%;
+    max-width: 900px; /* Más ancho para evitar cortes */
+    position: relative;
+    box-shadow: 0 6px 32px rgba(0, 0, 0, 0.35);
+    color: #222;
+    text-align: center;
+}
+
+.modal-content ul {
+    align-items: stretch;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 36px 32px; /* Más espacio entre recuadros */
+    background: #fff;
+    margin: 0 auto;
+    padding: 0;
+    list-style: none;
+}
+
+.modal-content ul li {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    text-align: left;
+    min-width: 220px;
+    max-width: 320px;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px #0001;
+    padding: 22px 20px;
+    margin: 0 0 48px 0; /* Más espacio inferior */
+}
+
+/* Close button */
+.popup-close-button {
+    position: absolute;
+    top: 10px;
+    right: 12px;
+    background: transparent;
+    border: none;
+    font-size: 1.5rem;
+    color: #666;
+    cursor: pointer;
+}
+
+.popup-close-button:hover {
+    color: #000;
+}

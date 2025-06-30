@@ -11,6 +11,7 @@ import {Wishlist} from "./components/Wishlist.jsx";
 import {Tournaments} from './components/Tournaments';
 import {TournamentDetail} from './components/shared/TournamentDetail';
 import {UserProvider} from './context/UserContext.jsx';
+import {Calendar} from "./components/Calendar.jsx";
 
 export function App() {
     return (
@@ -25,6 +26,7 @@ export function App() {
                     <Route path="/wishlist" element={<Wishlist/>}/>
                     <Route path="/torneos" element={<Tournaments/>}/>
                     <Route path="/torneos/:id" element={<TournamentDetail/>}/>
+                    <Route path="/calendar" element={<Calendar/>}/>
                 </Routes>
             </Router>
         </UserProvider>
