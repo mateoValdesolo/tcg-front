@@ -42,6 +42,9 @@ export function Navbar() {
                         <li>
                             <Link to="/torneos">Torneos</Link>
                         </li>
+                        <li>
+                            <Link to="/calendar">Calendario</Link>
+                        </li>
                         <li className="right">
                             {userId
                                 ? <button onClick={handleLogout} className="logout-btn">Cerrar sesión</button>
