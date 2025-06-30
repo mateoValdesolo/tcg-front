@@ -498,6 +498,10 @@ export function DeckView() {
             }
         });
 
+    const borrarLogos = () => {
+        setLogoPokemon([]);
+    }
+
     return (
         <div className="binder-container">
             <div className="binder-box binder-left">
@@ -617,6 +621,7 @@ export function DeckView() {
                             />
                             ))}
                             </div>
+                            <button onClick={() => borrarLogos()}>Borrar</button>
                             <button onClick={() => setShowLogoPicker(false)}>Cerrar</button>
                         </div>
                     </div>
