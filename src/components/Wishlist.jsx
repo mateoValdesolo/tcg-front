@@ -117,17 +117,13 @@ export function Wishlist() {
 
     const handleAddCard = (cardId) => {
         setCollection(prev => {
-            const total = Object.values(prev).reduce((acc, { count }) => acc + count, 0);
-            if (total >= 60) return prev;
             const prevItem = prev[cardId] || {};
             const prevCount = prevItem.count || 0;
-            const prevProxy = prevItem.proxy || 0;
             return {
                 ...prev,
                 [cardId]: {
                     ...prevItem,
-                    count: prevCount + 1,
-                    proxy: prevProxy
+                    count: prevCount + 1
                 }
             };
         });
