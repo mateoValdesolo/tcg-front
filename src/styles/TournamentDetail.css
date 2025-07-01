@@ -1,0 +1,61 @@
+.tournament-detail-container {
+    max-width: 70%;
+    margin: 32px auto;
+    padding: 24px;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    font-family: 'Montserrat', Arial, sans-serif;
+}
+
+.tournament-detail-container h2 {
+    text-align: center;
+    margin-bottom: 18px;
+    color: #2d3748;
+}
+
+.tournament-detail-container h3 {
+    margin-top: 28px;
+    margin-bottom: 12px;
+    color: #374151;
+}
+
+.tournament-detail-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #f9f9f9;
+    margin-bottom: 18px;
+}
+
+.tournament-detail-table th, .tournament-detail-table td {
+    padding: 10px 8px;
+    text-align: left;
+}
+
+.tournament-detail-table th {
+    background: #e2e8f0;
+    color: #2d3748;
+    font-weight: 600;
+    border-bottom: 2px solid #cbd5e1;
+}
+
+.tournament-detail-table tr:nth-child(even) {
+    background: #f1f5f9;
+}
+
+.tournament-detail-table tr:hover {
+    background: #e0e7ef;
+    transition: background 0.2s;
+}
+
+.tournaments-detail-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 24px;
+}
+
+.locoCom-img {
+    height: 70px;
+    margin-left: 16px;
+}

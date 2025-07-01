@@ -2,12 +2,13 @@ import React, { useState, useEffect } from 'react';
 import '../styles/Binder.css';
 import pokemon from "../api/pokemon.js";
 import { CardGrid } from './shared/CardGrid.jsx';
-import {CardCollectionWish} from "./shared/CardCollectionWish.jsx";
+import { CardCollectionWish } from "./shared/CardCollectionWish.jsx";
+import {useUser} from "../context/UserContext.jsx";
 
 export function Wishlist() {
     const [search, setSearch] = useState('');
     const [cards, setCards] = useState([]);
-    const [collection, setCollection] = useState({}); // { [id]: { card, count } }
+    const [collection, setCollection] = useState({});
     const [showFilters, setShowFilters] = useState(false);
     const [filters, setFilters] = useState({
         pokemon: false,
@@ -18,6 +19,33 @@ export function Wishlist() {
         energy: false,
         onlyBasic: false
     });
+    const { userId } = useUser();
+    const [isLoaded, setIsLoaded] = useState(false);
+
+    useEffect(() => {
+        if (!userId) return;
+        const fetchWishlist = async () => {
+            const res = await fetch(`/.netlify/functions/wishlist?id=${userId}`);
+            if (res.ok) {
+                const data = await res.json();
+                setCollection(data.collection ? JSON.parse(data.collection) : {});
+            }
+            setIsLoaded(true);
+        };
+        fetchWishlist();
+    }, [userId]);
+
+    useEffect(() => {
+        if (!userId || !isLoaded) return;
+        fetch('/.netlify/functions/wishlist', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                id: userId,
+                collection: JSON.stringify(collection)
+            })
+        });
+    }, [collection, userId, isLoaded]);
 
     const handleFilterChange = (e) => {
         const { name, checked } = e.target;
@@ -49,48 +77,19 @@ export function Wishlist() {
         e.preventDefault();
         let q = `name:${search}* legalities.standard:Legal`;
 
-        if (filters.pokemon) {
-            q += ` supertype:Pokémon`;
-        }
+        if (filters.pokemon) q += ` supertype:Pokémon`;
+        if (filters.item) q += ` subtypes:Item`;
+        if (filters.supporter) q += ` subtypes:Supporter`;
+        if (filters.stadium) q += ` subtypes:Stadium`;
+        if (filters.energy) q += ` supertype:Energy`;
+        if (filters.onlyBasic) q += ` subtypes:Basic`;
 
-        if (filters.item) {
-            q += ` subtypes:Item`;
-        }
-
-        if (filters.supporter) {
-            q += ` subtypes:Supporter`;
-        }
-
-        if (filters.stadium) {
-            q += ` subtypes:Stadium`;
-        }
-
-        if (filters.energy) {
-            q += ` supertype:Energy`;
-        }
-
-        if (filters.onlyBasic) {
-            q += ` subtypes:Basic`;
-        }
         const result = await pokemon.card.where({
             q,
             orderBy: `-set.releaseDate`
         });
         setCards(result.data);
     };
-
-
-
-    // Cargar colección desde localStorage al iniciar
-    useEffect(() => {
-        const stored = localStorage.getItem('wishlistCollection');
-        if (stored) setCollection(JSON.parse(stored));
-    }, []);
-
-    // Guardar colección en localStorage cuando cambie
-    useEffect(() => {
-        localStorage.setItem('wishlistCollection', JSON.stringify(collection));
-    }, [collection]);
 
     const handleCardRemove = (cardId) => {
         setCollection(prev => {
@@ -118,23 +117,17 @@ export function Wishlist() {
 
     const handleAddCard = (cardId) => {
         setCollection(prev => {
-            const total = Object.values(prev).reduce((acc, {count}) => acc + count, 0);
-            if (total >= 60) return prev; // No agregar más de 60
             const prevItem = prev[cardId] || {};
             const prevCount = prevItem.count || 0;
-            const prevProxy = prevItem.proxy || 0;
             return {
                 ...prev,
                 [cardId]: {
                     ...prevItem,
-                    count: prevCount + 1,
-                    proxy: prevProxy
+                    count: prevCount + 1
                 }
             };
         });
     };
-
-    // Para enviar al backend: Object.entries(collection).map(([id, { count }]) => ({ id, count }))
 
     return (
         <div className="binder-container">

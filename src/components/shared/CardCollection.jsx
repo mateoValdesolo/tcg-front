@@ -1,9 +1,10 @@
 import React from 'react';
 import '../../styles/CardCollection.css';
 
-export function CardCollection({ collection, onCardRemove, onAddCard }) {
+export function CardCollection({ collection, userId, onCardRemove, onAddCard }) {
     const cards = Object.values(collection);
     const total = cards.reduce((acc, { count }) => acc + count, 0);
+
 
     const getTypePriority = (card) => {
         // Ajusta según cómo se almacene el tipo en tu objeto card

@@ -1,10 +1,20 @@
 import React from 'react';
-import { Link, Outlet } from 'react-router-dom';
+import { Link, Outlet, useNavigate } from 'react-router-dom';
 import brandImg from '../assets/tcg.png';
 import '../styles/Navbar.css';
-
+import { GoogleLoginButton } from './shared/GoogleLoginButton.jsx';
+import { useUser } from '../context/UserContext.jsx';
 
 export function Navbar() {
+    const { userId, setUserId } = useUser();
+    const navigate = useNavigate();
+
+    const handleLogout = () => {
+        setUserId('');
+        localStorage.removeItem('userId');
+        navigate('/'); // Redirige al inicio
+    };
+
     return (
         <>
             <nav>
@@ -28,6 +38,18 @@ export function Navbar() {
                         </li>
                         <li>
                             <Link to="/wishlist">Wishlist</Link>
+                        </li>
+                        <li>
+                            <Link to="/torneos">Torneos</Link>
+                        </li>
+                        <li>
+                            <Link to="/calendar">Calendario</Link>
+                        </li>
+                        <li className="right">
+                            {userId
+                                ? <button onClick={handleLogout} className="logout-btn">Cerrar sesión</button>
+                                : <GoogleLoginButton key={userId || 'logout'} onLogin={setUserId} />
+                            }
                         </li>
                     </ul>
                 </div>
