@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link, Outlet, useNavigate } from 'react-router-dom';
 import brandImg from '../assets/tcg.png';
 import '../styles/Navbar.css';
@@ -8,42 +8,43 @@ import { useUser } from '../context/UserContext.jsx';
 export function Navbar() {
     const { userId, setUserId } = useUser();
     const navigate = useNavigate();
+    const [menuOpen, setMenuOpen] = useState(false);
 
     const handleLogout = () => {
         setUserId('');
         localStorage.removeItem('userId');
-        navigate('/'); // Redirige al inicio
+        navigate('/');
+        setMenuOpen(false);
     };
+
+    const handleMenuToggle = () => setMenuOpen(open => !open);
+    const handleLinkClick = () => setMenuOpen(false);
 
     return (
         <>
             <nav>
+                <Link to="/" onClick={handleLinkClick} className="exclude">
+                    <img src={brandImg} alt="Brand" className="brand-img" />
+                </Link>
+                <button className="menu-toggle" onClick={handleMenuToggle} aria-label="Abrir menú">
+                    &#9776;
+                </button>
                 <div>
-                    <ul>
-                        <li className='exclude'>
-                            <Link to="/">
-                                <img src={brandImg} alt="Brand" style={{ height: '40px' }} />
-                            </Link>
-                        </li>
-                        {/*<li className='exclude'>*/}
-                        {/*    <Link to="/">*/}
-                        {/*        <span className='brand-text'>MyBinder</span>*/}
-                        {/*    </Link>*/}
-                        {/*</li>*/}
+                    <ul className={menuOpen ? 'open' : ''}>
                         <li>
-                            <Link to="/binder">Binder</Link>
+                            <Link to="/binder" onClick={handleLinkClick}>Binder</Link>
                         </li>
                         <li>
-                            <Link to="/mydecks">MyDecks</Link>
+                            <Link to="/mydecks" onClick={handleLinkClick}>MyDecks</Link>
                         </li>
                         <li>
-                            <Link to="/wishlist">Wishlist</Link>
+                            <Link to="/wishlist" onClick={handleLinkClick}>Wishlist</Link>
                         </li>
                         <li>
-                            <Link to="/torneos">Torneos</Link>
+                            <Link to="/torneos" onClick={handleLinkClick}>Torneos</Link>
                         </li>
                         <li>
-                            <Link to="/calendar">Calendario</Link>
+                            <Link to="/calendar" onClick={handleLinkClick}>Calendario</Link>
                         </li>
                         <li className="right">
                             {userId
@@ -56,5 +57,5 @@ export function Navbar() {
             </nav>
             <Outlet/>
         </>
-    )
+    );
 }

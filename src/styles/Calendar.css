@@ -227,3 +227,27 @@
 .popup-close-button:hover {
     color: #000;
 }
+
+@media (max-width: 600px) {
+    .calendar {
+        width: 100%;
+        min-width: unset;
+        max-width: 100vw;
+        font-size: 0.95em;
+        border-radius: 0;
+        margin: 0;
+        overflow-x: unset;
+        white-space: normal;
+    }
+    .calendar th, .calendar td {
+        font-size: 1em;
+        height: 44px;
+        padding: 0;
+    }
+    .calendar-container {
+        max-width: 100vw;
+        padding: 8px;
+        border-radius: 0;
+        margin: 0 auto;
+    }
+}

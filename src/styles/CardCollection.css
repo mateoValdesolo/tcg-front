@@ -96,3 +96,14 @@
     color: #888;
     margin-top: 2px;
 }
+
+@media (max-width: 600px) {
+    .collection-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 0.5rem;
+        padding-right: 0;
+    }
+    .cardcollection-card {
+        font-size: 0.9rem;
+    }
+}
