@@ -113,3 +113,88 @@ li:not(.exclude) a:hover {
     color: #ffffff;
     border: solid 2px #42be77;
 }
+
+.menu-toggle {
+    display: none;
+}
+
+.brand-img {
+    height: 40px;
+    margin-left: 0.5em;
+    display: block;
+}
+
+nav {
+    display: flex;
+    align-items: center;
+    height: 60px;
+    background: #67ffa8;
+    position: relative;
+    z-index: 1;
+}
+
+nav > .exclude {
+    margin-right: 1em;
+}
+
+nav > div {
+    flex: 1;
+}
+
+.exclude {
+    display: flex;
+    align-items: center;
+    height: 60px;
+}
+
+@media (max-width: 600px) {
+    nav {
+        position: relative;
+        height: 48px;
+        display: flex;
+        align-items: center;
+        background: #67ffa8;
+    }
+    .menu-toggle {
+        display: block;
+        position: absolute;
+        right: 0.5em;
+        top: 0.5em;
+        z-index: 1001;
+    }
+    ul {
+        display: none;
+        flex-direction: column;
+        width: 100%;
+        background: #67ffa8;
+        position: absolute;
+        top: 48px;
+        left: 0;
+        z-index: 1000;
+        margin: 0;
+        padding: 0;
+    }
+    ul.open {
+        display: flex;
+    }
+    li, .login-btn-right {
+        float: none;
+        padding: 0.5em 1em;
+        width: 100%;
+    }
+    li:not(.exclude) a,
+    .logout-btn {
+        font-size: 15px;
+        padding: 8px 8px;
+        height: 32px;
+    }
+    .brand-img {
+        height: 36px !important;
+        margin-left: 0.5em;
+    }
+    .exclude {
+        display: flex;
+        align-items: center;
+        height: 48px;
+    }
+}
