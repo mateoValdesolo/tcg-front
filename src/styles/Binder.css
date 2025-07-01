@@ -105,3 +105,42 @@
     height: 18px;
     margin-right: 4px;
 }
+
+@media (max-width: 600px) {
+    .binder-container {
+        max-width: 100vw;
+        flex-direction: column;
+        height: auto;
+        padding: 0px  !important;
+        margin: 0 auto;
+        overflow-x: hidden;
+    }
+    .binder-box {
+        height: auto;
+        min-width: 0;
+        margin-bottom: 1rem;
+    }
+    .binder-divider {
+        display: none;
+    }
+
+    .binder-box.binder-left {
+        width: 96%;
+        flex: none;
+        max-width: 100vw;
+        padding: 8px;
+        border-radius: 0;
+        margin: 0 auto;
+        overflow-x: hidden;
+    }
+
+    .binder-box.binder-right {
+        width: 96%;
+        flex: none;
+        max-width: 100vw;
+        padding: 8px;
+        border-radius: 0;
+        margin: 0 auto;
+        overflow-x: hidden;
+    }
+}

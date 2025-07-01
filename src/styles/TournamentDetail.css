@@ -59,3 +59,29 @@
     height: 70px;
     margin-left: 16px;
 }
+
+@media (max-width: 600px) {
+    .tournament-detail-container {
+        max-width: 100vw;
+        padding: 8px;
+        border-radius: 0;
+        margin: 0 auto;
+    }
+    .locoCom-img {
+        height: 48px;
+        margin-left: 0;
+    }
+    .tournament-detail-table {
+        display: table;
+        width: 100%;
+        table-layout: fixed;
+        overflow-x: unset;
+        white-space: normal;
+    }
+    .tournament-detail-table th, .tournament-detail-table td {
+        min-width: unset;
+        word-break: break-word;
+        padding: 8px 2px;
+        font-size: 0.95em;
+    }
+}
